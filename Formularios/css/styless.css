@@ -4,17 +4,17 @@
 }
 
 #mensaje-escritura {
-    font-family: 'Segoe UI Black', Courier, monospace; /* Tipo de letra tipo máquina de escribir */
-    white-space: nowrap; /* Evitar el salto de línea */
+    font-family: 'Segoe UI Black', Courier, monospace; 
+    white-space: nowrap;
     color: white;
     font-size: 30px;
-    overflow: hidden; /* Ocultar desbordes */
-    border-right: 5px solid #13171f; /* Cursor de escritura */
-    width: 0; /* Comienza sin ancho */
-    animation: typing 5s steps(100) forwards, blink 0.75s step-end infinite; /* Efectos de escritura y parpadeo */
-    text-align: center; /* Centrar el texto */
-    display: block; /* Necesario para aplicar correctamente el ancho */
-    margin: 20px auto; /* Centrar en el contenedor */
+    overflow: hidden;
+    border-right: 5px solid #13171f;
+    width: 0;
+    animation: typing 5s steps(100) forwards, blink 0.75s step-end infinite;
+    text-align: center;
+    display: block;
+    margin: 20px auto;
 }
 
 form input:focus{
@@ -23,18 +23,18 @@ form input:focus{
 
 @keyframes typing {
     from {
-        width: 0; /* Comienza en ancho 0 */
+        width: 0;
     }
     to {
-        width: 100%; /* Termina al ancho total del texto */
+        width: 100%;
     }
 }
 
 @keyframes blink {
     0%, 100% {
-        border-color: transparent; /* Cursor invisible al principio y al final */
+        border-color: transparent;
     }
     50% {
-      border-color: #13171f; /* Hacer el cursor visible en el medio */
+        border-color: #13171f;
     }
 }

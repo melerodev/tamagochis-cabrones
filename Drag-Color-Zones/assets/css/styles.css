@@ -11,34 +11,34 @@ body {
 }
 
 #mensaje-escritura {
-  font-family: 'Segoe UI Black', Courier, monospace; /* Tipo de letra tipo máquina de escribir */
-  white-space: nowrap; /* Evitar el salto de línea */
+  font-family: 'Segoe UI Black', Courier, monospace;
+  white-space: nowrap;
   color: white;
   font-size: 70px;
-  overflow: hidden; /* Ocultar desbordes */
-  border-right: 5px solid #13171f; /* Cursor de escritura */
-  width: 0; /* Comienza sin ancho */
-  animation: typing 5s steps(100) forwards, blink 0.75s step-end infinite; /* Efectos de escritura y parpadeo */
-  text-align: center; /* Centrar el texto */
-  display: block; /* Necesario para aplicar correctamente el ancho */
-  margin: 20px auto; /* Centrar en el contenedor */
+  overflow: hidden;
+  border-right: 5px solid #13171f; 
+  width: 0;
+  animation: typing 5s steps(100) forwards, blink 0.75s step-end infinite; 
+  text-align: center;
+  display: block;
+  margin: 20px auto;
 }
 
 @keyframes typing {
   from {
-    width: 0; /* Comienza en ancho 0 */
+    width: 0;
   }
   to {
-    width: 100%; /* Termina al ancho total del texto */
+    width: 100%; 
   }
 }
 
 @keyframes blink {
   0%, 100% {
-    border-color: transparent; /* Cursor invisible al principio y al final */
+    border-color: transparent;
   }
   50% {
-    border-color: #13171f; /* Hacer el cursor visible en el medio */
+    border-color: #13171f;
   }
 }
 
@@ -66,12 +66,16 @@ body {
   height: 300px;
   border: 2px solid white;
   position: relative;
-  display: flex; /* Distribución de las cartas */
+  display: flex;
   flex-wrap: wrap;
   gap: 10px;
   padding: 10px;
   border-radius: 10px;
-  transition: background-color 0.3s ease, width 0.3s ease, height 0.3s ease; /* Añadido para la transición */
+  transition: background-color 0.3s ease, width 0.3s ease, height 0.3s ease;
+}
+
+.dropzone {
+  animation: moveZone 2s infinite ease-in-out;
 }
 
 .card {
@@ -90,24 +94,27 @@ body {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   position: relative; /* Permitir posicionamiento dentro del contenedor */
   transition: transform 0.3s ease;
-}
+  .corner {
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
 
-.card .corner {
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.card .center {
-  font-size: 1rem;
-  font-weight: bold;
+  .center {
+    font-size: 1rem;
+    font-weight: bold;
+  }
 }
 
 .card:hover {
   transform: scale(1.05);
 }
 
-.dropzone {
-  animation: moveZone 2s infinite ease-in-out;
+.card.dragging {
+  animation: slideOut 0.3s ease-in-out forwards;
+}
+
+.card.returning {
+  animation: slideIn 0.5s ease-in-out forwards;
 }
 
 @keyframes slideOut {
@@ -115,29 +122,21 @@ body {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-30px); /* Ajusta el valor según la dirección deseada */
+    transform: translateY(-30px);
   }
 }
 
 @keyframes slideIn {
   0% {
-    transform: translateY(-30px); /* Debe coincidir con el valor de slideOut */
+    transform: translateY(-30px);
   }
   60% {
-    transform: translateY(0); /* Regresa a la posición original */
+    transform: translateY(0);
   }
   80% {
-    transform: translateY(-10px); /* Efecto de rebote */
+    transform: translateY(-10px);
   }
   100% {
-    transform: translateY(0); /* Termina en la posición original */
+    transform: translateY(0);
   }
-}
-
-.card.dragging {
-  animation: slideOut 0.3s ease-in-out forwards; /* Animación al arrastrar */
-}
-
-.card.returning {
-  animation: slideIn 0.5s ease-in-out forwards; /* Animación al volver */
 }

@@ -1,6 +1,4 @@
-import { InputMapper } from "./mapper/InputMapper.js"
-import { Config } from "./config/Config.js"
-import { Factory } from "../../Validar-Campos/assets/js/factory/factory.js"; // Importar Factory
+import { InputMapper } from "./mapper/InputMapper.js";
 
 export class Validador {
     #operations = {
@@ -11,36 +9,38 @@ export class Validador {
     constructor() {
         [...document.forms].forEach((item) => {
             InputMapper(item.elements).forEach( (item)=> {
-                this.#operations[item.type].call(this, item);        
+                this.#operations[item.type](item);        
             });   
         })
     }
 
     #euroAddEvents(item) {
-        const button = document.querySelector('input[type="submit"]');
         item.object.addEventListener('input', (event) => {
-            Factory.euro(event, button);
-            this.#validateFields(); // Verifica los campos en cada entrada
+            this.validarCampos(event, "euro");
         });
     }
 
     #dateAddEvents(item) {
-        const button = document.querySelector('input[type="submit"]');
         item.object.addEventListener('input', (event) => {
-            Factory.fecha(event, button);
-            this.#validateFields(); // Verifica los campos en cada entrada
+            this.validarCampos(event, "date");
         });
     }
 
-    #validateFields() {
-        const button = document.querySelector('input[type="submit"]');
-        const euroInput = document.querySelector('.euro');
-        const dateInput = document.querySelector('.date');
-
-        if (!euroInput.value.trim() || !dateInput.value.trim()) {
-            button.disabled = true; // Deshabilita el botón si algún campo está vacío
-        } else {
-            button.disabled = false; // Habilita el botón si ambos campos tienen valor
-        }
+    validarCampos(event, tipo) {
+        value = evento.target.value;
+        switch (tipo) {
+            case "euro":
+                if (isNaN(value)) {
+                    event.target.style.border = "1px solid red";
+                } else {
+                    event.target.style.border = "";
+                }
+            case "date":
+                if (new Date(value).getTime() < Date.now()) {
+                    event.target.style.border = "1px solid red";
+                } else {
+                    event.target.style.border = "";
+                }
+            }
     }
 }
