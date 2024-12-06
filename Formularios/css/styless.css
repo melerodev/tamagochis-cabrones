@@ -1,0 +1,40 @@
+* {
+    padding: 10px;
+    margin: 0;
+}
+
+#mensaje-escritura {
+    font-family: 'Segoe UI Black', Courier, monospace; /* Tipo de letra tipo máquina de escribir */
+    white-space: nowrap; /* Evitar el salto de línea */
+    color: white;
+    font-size: 30px;
+    overflow: hidden; /* Ocultar desbordes */
+    border-right: 5px solid #13171f; /* Cursor de escritura */
+    width: 0; /* Comienza sin ancho */
+    animation: typing 5s steps(100) forwards, blink 0.75s step-end infinite; /* Efectos de escritura y parpadeo */
+    text-align: center; /* Centrar el texto */
+    display: block; /* Necesario para aplicar correctamente el ancho */
+    margin: 20px auto; /* Centrar en el contenedor */
+}
+
+form input:focus{
+    outline: none;
+}
+
+@keyframes typing {
+    from {
+        width: 0; /* Comienza en ancho 0 */
+    }
+    to {
+        width: 100%; /* Termina al ancho total del texto */
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        border-color: transparent; /* Cursor invisible al principio y al final */
+    }
+    50% {
+      border-color: #13171f; /* Hacer el cursor visible en el medio */
+    }
+}
