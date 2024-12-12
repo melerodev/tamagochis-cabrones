@@ -17,17 +17,17 @@ window.addEventListener("load", () => {
     .then(savedCards => {
       // si existen cartas guardadas, las agregamos a las zonas correspondientes
       savedCards.forEach(cardData => {
-        const card = generateCards().find(card => card.id === cardData.cartaId); // busca la carta correspondiente
+        const card = generateCards().find(card => card.id === cardData.cartaId); // busca la carta corespondiente
         if (card) {
           const dropzone = document.getElementById(cardData.dropzone); // encuentra la dropzone correspondiente
           if (!dropzone.contains(card)) { // verifica si la carta ya está en el contenedor
-            card.style.backgroundColor = colors[dropzone.id]; // establece el color de la carta
+            card.style.backgroundColor = colors[dropzone.id]; // establece el colo de la carta
             dropzone.appendChild(card); // agrega la carta a la zona correspondiente
           }
         }
       });
 
-      // Ajustar el tamaño de las dropzones después de agregar las cartas guardadas
+      // Ajustar el tamaño de las dropzones después de agregar las cartas guarddas
       dropzones.forEach(dropzone => {
         const allCards = dropzone.querySelectorAll(".card");
         allCards.length > 6 ? adjustDropzoneSize(dropzone) : resetDropzoneSize(dropzone);
@@ -37,9 +37,10 @@ window.addEventListener("load", () => {
       const totalCards = document.querySelectorAll(".card").length;
       if (totalCards < 12) {
         // generamos las cartas restantes si es necesario
-        const cards = generateCards().slice(0, 12 - totalCards);
-        const half = Math.ceil(cards.length / 2);
+        const cards = generateCards().slice(0, 12 - totalCards); // generamos las cartas restantes
+        const half = Math.ceil(cards.length / 2); // dividimos las cartas en dos grupos
 
+        // agregamos las cartas a las dropzones correspondientes
         dropzones[0].append(...cards.slice(0, half).map(card => {
           card.style.backgroundColor = colors["dropzone1"];
           return card;
