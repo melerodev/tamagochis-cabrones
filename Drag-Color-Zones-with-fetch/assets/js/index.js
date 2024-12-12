@@ -2,7 +2,7 @@ import { setupDraggables } from "./uiDrag.js";
 import { generateCards } from "./letterGenerator.js";
 import { adjustDropzoneSize, resetDropzoneSize } from "./uiDrag.js";
 
-// Generar cartas y dividirlas en dos grupos
+// generar cartas y dividirlas en dos grupos
 window.addEventListener("load", () => {
   const dropzones = document.querySelectorAll(".dropzone");
 
@@ -13,16 +13,16 @@ window.addEventListener("load", () => {
 
   // Realizamos un fetch para obtener las cartas guardadas
   fetch("/save")
-    .then(response => response.json()) // Convertimos la respuesta a JSON
+    .then(response => response.json()) // convertimos la respuesta a JSON
     .then(savedCards => {
-      // Si existen cartas guardadas, las agregamos a las zonas correspondientes
+      // si existen cartas guardadas, las agregamos a las zonas correspondientes
       savedCards.forEach(cardData => {
-        const card = generateCards().find(card => card.id === cardData.cartaId); // Busca la carta correspondiente
+        const card = generateCards().find(card => card.id === cardData.cartaId); // busca la carta correspondiente
         if (card) {
-          const dropzone = document.getElementById(cardData.dropzone); // Encuentra la dropzone correspondiente
-          if (!dropzone.contains(card)) { // Verifica si la carta ya está en el contenedor
-            card.style.backgroundColor = colors[dropzone.id]; // Establece el color de la carta
-            dropzone.appendChild(card); // Agrega la carta a la zona correspondiente
+          const dropzone = document.getElementById(cardData.dropzone); // encuentra la dropzone correspondiente
+          if (!dropzone.contains(card)) { // verifica si la carta ya está en el contenedor
+            card.style.backgroundColor = colors[dropzone.id]; // establece el color de la carta
+            dropzone.appendChild(card); // agrega la carta a la zona correspondiente
           }
         }
       });
@@ -33,10 +33,10 @@ window.addEventListener("load", () => {
         allCards.length > 6 ? adjustDropzoneSize(dropzone) : resetDropzoneSize(dropzone);
       });
 
-      // Verificar el número total de cartas antes de generar nuevas cartas
+      // verificar el número total de cartas antes de generar nuevas cartas
       const totalCards = document.querySelectorAll(".card").length;
       if (totalCards < 12) {
-        // Generamos las cartas restantes si es necesario
+        // generamos las cartas restantes si es necesario
         const cards = generateCards().slice(0, 12 - totalCards);
         const half = Math.ceil(cards.length / 2);
 
@@ -49,7 +49,7 @@ window.addEventListener("load", () => {
           return card;
         }));
 
-        // Ajustar el tamaño de las dropzones después de agregar las cartas generadas
+        // ajustar el tamaño de las dropzones después de agregar las cartas generadas
         dropzones.forEach(dropzone => {
           const allCards = dropzone.querySelectorAll(".card");
           allCards.length > 6 ? adjustDropzoneSize(dropzone) : resetDropzoneSize(dropzone);
