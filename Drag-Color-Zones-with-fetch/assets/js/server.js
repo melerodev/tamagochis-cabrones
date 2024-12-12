@@ -7,7 +7,7 @@ const server = createServer(app);
 app.use(express.json()); // esto es un middleware para poder leer el body de las peticiones
 var posicionesCartas = [];
 
-const directorioPrincipal = join(__dirname, '../../');
+const directorioPrincipal = join(__dirname, '../../'); // directorio principal del proyecto
 
 // configura una ruta estática para servir los archivos
 app.use(express.static(join(directorioPrincipal)));
