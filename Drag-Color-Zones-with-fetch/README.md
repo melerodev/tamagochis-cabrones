@@ -1,0 +1,1 @@
+Para poder ejecutar el programa hay que situars en el directorio de este proyecto con `cd .\Drag-Color-Zones-with-fetch\` y luego ejecutar el comando `node .\assets\js\server.js`.
