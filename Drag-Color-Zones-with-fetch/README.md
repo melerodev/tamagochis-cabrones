@@ -1,1 +1,1 @@
-Para poder ejecutar el programa hay que situars en el directorio de este proyecto con `cd .\Drag-Color-Zones-with-fetch\` y luego ejecutar el comando `node .\assets\js\server.js`.
+Para poder ejecutar el programa hay que situarse en el directorio de este proyecto con `cd .\Drag-Color-Zones-with-fetch\` y luego ejecutar el comando `node .\assets\js\server.js` y la consola nos devolverá `servidor corriendo en http://localhost:3000` donde deberemos y a la ruta que este nos dice.
