@@ -35,7 +35,7 @@ export class Check {
             const span = event.target.parentElement.querySelector('span'); // obtengo el span del check
             span.innerHTML = event.target.checked ? 'ON' : 'OFF'; // si el check está activado, el texto será ON, si no, será OFF
             Cliente.send({name: event.target.closest(".form-switch").id, state: event.target.checked}); // envío el id del label y el estado del check al servidor
-            // con "event.target.closest(".form-switch").id" obtengo el elemento más cercano que tenga el I y luego obtengo su id
+            // con "event.target.closest(".form-switch").id" obtengo el elemento más cercano que tenga el elemento I y luego obtengo su id
         })
     }
 }
