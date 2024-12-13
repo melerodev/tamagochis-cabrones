@@ -57,3 +57,7 @@ check2.addCheck("riego2", 4);
 const check3 = new Check(document.getElementById("grupo3"),Cliente);
 check3.addCheck("riego1", 5);
 check3.addCheck("riego2", 6);
+
+const check4 = new Check(document.getElementById("grupo4"),Cliente);
+check4.addCheck("riego1", 7);
+check4.addCheck("riego2", 8);

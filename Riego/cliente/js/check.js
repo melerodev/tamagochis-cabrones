@@ -1,4 +1,4 @@
-import { Cliente } from './index.js'; // para ahorra código, importo la función send de index.js para enviar los datos al servidor desde el mismo sitio donde estoy manejando los checks con eventos
+import { Cliente } from './index.js'; // para ahorra código, importo la función send de index.js para enviar los datos al servidor desde el mismo sitio donde estoy manejando eventos con check
 
 export class Check {
     constructor(parent,client) {
@@ -12,6 +12,7 @@ export class Check {
         data.state = value;
     }
 
+    // le añado una id a cada check para poder identificarlo y luego enviarlo al servidor y que este sepa cuál check se activó o desactivó
     addCheck(name, num) {
         this.states.push({
             name : name,
@@ -26,11 +27,10 @@ export class Check {
         check.appendChild(document.createElement("i"));
         const span = document.createElement('span');
         const text = document.createTextNode('OFF');
-        // añadirle una id al check
-        check.setAttribute('id', num)
+        check.setAttribute('id', num) // añadirle una id al label
         span.appendChild(text);
         check.appendChild(span);
-        input.addEventListener('change', (event)=> {
+        input.addEventListener('change', (event) => { // cuando cambie el check se ejecutará la función flecha
             this.changeValue(name, event.target.checked); // cambio el valor del check
             const span = event.target.parentElement.querySelector('span'); // obtengo el span del check
             span.innerHTML = event.target.checked ? 'ON' : 'OFF'; // si el check está activado, el texto será ON, si no, será OFF
