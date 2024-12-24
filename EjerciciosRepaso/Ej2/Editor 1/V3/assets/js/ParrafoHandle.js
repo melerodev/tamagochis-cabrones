@@ -1,4 +1,4 @@
-export const ButtonHandler = {
+export const ParrafoEditable = {
     init: () => {
         function anadirEditButton() {
             document.querySelectorAll('.parrafoEditable').forEach(parrafo => {
