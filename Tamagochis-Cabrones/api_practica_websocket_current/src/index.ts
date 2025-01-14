@@ -23,7 +23,7 @@ const io = new Server(httpServer, {
 });
 
 io.on('connection', (socket) => {
-    const roomInstace = RoomService.getInstance();
+    const roomInstance = RoomService.getInstance();
 
     console.log('Un cliente se ha conectado:', socket.id);
 
@@ -43,14 +43,17 @@ io.on('connection', (socket) => {
     //     type : "newPlayer",
     // })
 
-    // en este caso, cuando un jugador se conecte meterlo en una sala no es una opción viable, que el jugador elija sala es mejor
-
     socket.on('joinRoom', (data) => {
         player.id = data.id;
-        roomInstace.addPlayer(player);
+        roomInstance.addPlayer(player);
         socket.emit("game", {
             type: "newPlayer",
         });
+
+        // si la sala está llena, la sala se marca como ocupada
+        if (roomInstance.getNumPlayersInRoom(roomInstance.getRoomByPlayer(player)) == 4) {
+            roomInstance.getRoomByPlayer(player).occupied = true;
+        }
     });
 
     socket.on('mensaje', (data) => {
@@ -58,12 +61,13 @@ io.on('connection', (socket) => {
         socket.emit('respuesta', { mensaje: 'Mensaje recibido con éxito.' });
     });
 
-    // cuando se desconecta un jugador a este se le elimina de la sala y se notifica a los demás jugadores
+    // cuando se desconecta un jugador a este se le elimina de la 
+    // sala y se comprueba si la sala queda vacía para eliminarla 
     socket.on('disconnect', () => {
         console.log('Un cliente se ha desconectado:', socket.id);
-        roomInstace.removePlayer(player);
-        if (roomInstace.getNumPlayersInRoom(roomInstace.getRoomByPlayer(player)) == 0) { // si la sala queda vacía se elimina
-            roomInstace.deleteRoom(roomInstace.getRoomByPlayer(player));
+        roomInstance.removePlayer(player);
+        if (roomInstance.getNumPlayersInRoom(roomInstance.getRoomByPlayer(player)) == 0) { // si la sala queda vacía se elimina
+            roomInstance.deleteRoom(roomInstance.getRoomByPlayer(player));
         }
     });
 });

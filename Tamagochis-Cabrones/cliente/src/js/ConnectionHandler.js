@@ -16,12 +16,5 @@ export const ConnectionHandler = {
         });
 
         const joinButtons = document.querySelector("join");
-
-        joinButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-                id = io.socket.id;
-                socket.emit("joinRoom", id);
-            });
-        });
     },
 }
