@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/tablero.css">
+    <title>Rooms</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    table {
+        width: 25%;
+        height: 30%;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    td {
+        text-align: center;
+        border: 1px solid #ccc;
+        font-size: 2rem;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 10px;
+        margin-right: 1rem;
+        gap: 10px;
+    }
+
+    button {
+        padding: 1rem;
+        font-size: 1.5rem;
+        background-color: #4591ee;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        text-transform: uppercase;
+    }
+
+    button:hover {
+        background-color: #97c3e9;
+        border: 1px solid #ffffff;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="button-container">
+            <button><i class="fa-solid fa-arrow-up"></i></button>
+            <button><i class="fa-solid fa-arrow-right"></i></i></button>
+            <button><i class="fa-solid fa-arrow-left"></i></i></button>
+            <button><i class="fa-solid fa-arrow-down"></i></button>
+            <button><i class="fa-solid fa-burst"></i></button>
+
+        </div>
+        <table>
+            <tr>
+                <td>
+                    <i class="fa-solid fa-certificate"></i>
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    <i class="fa-solid fa-certificate"></i>
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    <i class="fa-solid fa-certificate"></i>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    <i class="fa-solid fa-certificate"></i>
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+                <td>
+                    Hola
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script type="module" src="src/js/index.js"></script>
+</body>
+
+</html>

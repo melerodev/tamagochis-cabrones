@@ -23,6 +23,8 @@ const io = new Server(httpServer, {
 });
 
 io.on('connection', (socket) => {
+    const roomInstace = RoomService.getInstance();
+
     console.log('Un cliente se ha conectado:', socket.id);
 
     socket.emit("connectionStatus", { status: true });
@@ -36,7 +38,7 @@ io.on('connection', (socket) => {
         visibility: true
     }
 
-    RoomService.getInstance().addPlayer(player);
+    roomInstace.addPlayer(player);
     socket.emit("game", {
         type : "newPlayer",
     })
@@ -46,10 +48,13 @@ io.on('connection', (socket) => {
         socket.emit('respuesta', { mensaje: 'Mensaje recibido con éxito.' });
     });
 
-    // cuando se desconecta un cliente se elimina al jugador de la sala y se notifica a los demás jugadores
+    // cuando se desconecta un jugador a este se le elimina de la sala y se notifica a los demás jugadores
     socket.on('disconnect', () => {
         console.log('Un cliente se ha desconectado:', socket.id);
-        RoomService.getInstance().removePlayer(player);
+        roomInstace.removePlayer(player);
+        if (roomInstace.getNumPlayersInRoom(roomInstace.getRoomByPlayer(player)) == 0) { // si la sala queda vacía se elimina
+            roomInstace.deleteRoom(roomInstace.getRoomByPlayer(player));
+        }
     });
 });
 
