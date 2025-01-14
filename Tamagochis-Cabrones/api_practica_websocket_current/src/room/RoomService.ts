@@ -35,10 +35,10 @@ export class RoomService {
     }
 
     public removePlayer(player: Player) {
-        const room = this.rooms.find((item) => item.players.includes(player));
-        if (room == undefined) return;
-        room.players = room.players.filter((item) => item != player);
-        if (room.players.length == 0) {
+        const room = this.rooms.find((item) => item.players.includes(player)); // busca la sala en la que se encuentra el jugador
+        if (room == undefined) return; // si no se encuentra la sala, no hace nada
+        room.players = room.players.filter((item) => item != player); // elimina al jugador de la sala
+        if (room.players.length == 0) { // si la sala queda vacía, la elimina
             this.rooms = this.rooms.filter((item) => item != room);
         }
     }

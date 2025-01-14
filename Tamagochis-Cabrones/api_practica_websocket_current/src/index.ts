@@ -24,6 +24,7 @@ const io = new Server(httpServer, {
 
 io.on('connection', (socket) => {
     console.log('Un cliente se ha conectado:', socket.id);
+
     socket.emit("connectionStatus", { status: true });
 
     const player: Player = {
@@ -45,6 +46,7 @@ io.on('connection', (socket) => {
         socket.emit('respuesta', { mensaje: 'Mensaje recibido con éxito.' });
     });
 
+    // cuando se desconecta un cliente se elimina al jugador de la sala y se notifica a los demás jugadores
     socket.on('disconnect', () => {
         console.log('Un cliente se ha desconectado:', socket.id);
         RoomService.getInstance().removePlayer(player);
