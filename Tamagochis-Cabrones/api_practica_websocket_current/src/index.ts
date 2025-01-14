@@ -38,10 +38,20 @@ io.on('connection', (socket) => {
         visibility: true
     }
 
-    roomInstace.addPlayer(player);
-    socket.emit("game", {
-        type : "newPlayer",
-    })
+    // roomInstace.addPlayer(player);
+    // socket.emit("game", {
+    //     type : "newPlayer",
+    // })
+
+    // en este caso, cuando un jugador se conecte meterlo en una sala no es una opción viable, que el jugador elija sala es mejor
+
+    socket.on('joinRoom', (data) => {
+        player.id = data.id;
+        roomInstace.addPlayer(player);
+        socket.emit("game", {
+            type: "newPlayer",
+        });
+    });
 
     socket.on('mensaje', (data) => {
         console.log('Mensaje recibido:', data);

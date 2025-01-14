@@ -8,13 +8,20 @@ export const ConnectionHandler = {
         socket.on("connect", () => {
             console.log(connectedCallback);
             socket.emit("mensaje", "hola");
-
-
         });
 
         socket.on("disconnect", (reason) => {
             console.log(disconnectedCallback);
             console.log(reason);
+        });
+
+        const joinButtons = document.querySelector("join");
+
+        joinButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                id = io.socket.id;
+                socket.emit("joinRoom", id);
+            });
         });
     },
 }
