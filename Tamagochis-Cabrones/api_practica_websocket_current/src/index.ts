@@ -53,6 +53,7 @@ io.on('connection', (socket) => {
         // si la sala está llena, la sala se marca como ocupada
         if (roomInstance.getNumPlayersInRoom(roomInstance.getRoomByPlayer(player)) == 4) {
             roomInstance.getRoomByPlayer(player).occupied = true;
+            console.log("The room is full/occupied");
         }
     });
 
