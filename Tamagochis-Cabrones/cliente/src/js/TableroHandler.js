@@ -45,7 +45,7 @@ export const TableroHandler = {
         container.appendChild(table);
     },
 
-    addPerson(playersCount) {
+    addPlayerFromTablero(playersCount, playerID) {
         let position = null;
         let color = "";
 
@@ -73,10 +73,12 @@ export const TableroHandler = {
         } else if (document.getElementById(this.rows * this.colums - this.rows) != null) { // si la última celda en la esquina inferior izquierda de la tabla. esta vacia
             position = this.rows * this.colums - this.rows;
         }
-        console.log(position);
+        console.log(this.rows - 1);
 
-        document.getElementById(position).innerHTML = `<i class="fa-solid fa-user" style="color: ${color}"></i>`;
+        document.getElementById(position).innerHTML = `<i id=${playerID} class="fa-solid fa-user" style="color: ${color}"></i>`;    
+    },
 
-        // console.log(document.getElementById(`#${position}`));
+    removePlayerFromTablero(playerID) {
+        document.getElementById(playerID).remove();
     }
 };

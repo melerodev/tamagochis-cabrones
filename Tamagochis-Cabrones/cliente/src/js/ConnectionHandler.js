@@ -10,12 +10,13 @@ export const ConnectionHandler = {
             console.log(connectedCallback);
             // socket.emit("mensaje", "hola");
             this.players.push(socket.id);
-            TableroHandler.addPerson(this.players.length);
+            TableroHandler.addPlayerFromTablero(this.players.length, socket.id);
         });
 
         socket.on("disconnect", (reason) => {
             console.log(disconnectedCallback);
             console.log(reason);
+            TableroHandler.removePlayerFromTablero(socket.id);
         });
 
         socket.on("game", (players) => {
