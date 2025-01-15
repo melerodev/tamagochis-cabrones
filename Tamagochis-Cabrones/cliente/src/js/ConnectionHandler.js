@@ -7,7 +7,7 @@ export const ConnectionHandler = {
 
         socket.on("connect", () => {
             console.log(connectedCallback);
-            socket.emit("mensaje", "hola");
+            // socket.emit("mensaje", "hola");
         });
 
         socket.on("disconnect", (reason) => {

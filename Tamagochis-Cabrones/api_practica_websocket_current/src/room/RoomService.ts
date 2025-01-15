@@ -33,7 +33,7 @@ export class RoomService {
             player.id.join(room.name as string);
         }
         if (room) {
-            console.log("Player " + player.id.id + " added to a room");
+            console.log("Player " + player.id.id + " added to " + room.name);
         }
     }
 
@@ -62,15 +62,16 @@ export class RoomService {
         if (!this.rooms.includes(room)) { // si la sala no existe, lanza un error
             throw new Error("The room doesn't exist");
         }
+        
         return room.players.length;
     }
 
-    public deleteRoom(room: Room) {
-        if (!this.rooms.includes(room)) { // si la sala no existe, lanza un error
-            throw new Error("The room doesn't exist");
-        }
+    // public deleteRoom(room: Room) {
+    //     if (!this.rooms.includes(room)) { // si la sala no existe, lanza un error
+    //         throw new Error("The room doesn't exist");
+    //     }
 
-        this.rooms = this.rooms.filter((item) => item != room);
-        console.log("Room " + room.name + " deleted");
-    }
+    //     this.rooms = this.rooms.filter((item) => item != room);
+    //     console.log("Room " + room.name + " deleted");
+    // }
 }
