@@ -2,15 +2,16 @@ import { io, Socket } from "../../node_modules/socket.io-client/dist/socket.io.e
 import { TableroHandler } from "./TableroHandler.js";
 
 export const ConnectionHandler = {
-    players: [],
     init(url, connectedCallback, disconnectedCallback) {
         const socket = io(url);
-
+        let playersCount;
+        
         socket.on("connect", () => {
             console.log(connectedCallback);
-            // socket.emit("mensaje", "hola");
-            this.players.push(socket.id);
-            TableroHandler.addPlayerFromTablero(this.players.length, socket.id);
+
+            socket.on("updatePlayers", (data) => {
+                TableroHandler.addPlayerFromTablero(data ,socket.id);
+            });
         });
 
         socket.on("disconnect", (reason) => {

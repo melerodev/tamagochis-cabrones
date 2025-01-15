@@ -7,13 +7,12 @@ import { Server } from 'socket.io';
 import { Player } from './player/entities/Player';
 import { RoomService } from './room/RoomService';
 
-
 dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
 
-const httpServer = http.createServer();
+const httpServer = http.createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
@@ -22,10 +21,15 @@ const io = new Server(httpServer, {
     },
 });
 
+let players = 0;
+
 io.on('connection', (socket) => {
     const roomInstance = RoomService.getInstance();
 
+    players++;
+    io.emit("updatePlayers", players);
     console.log('Un cliente se ha conectado:', socket.id);
+    console.log(`Total jugadores: ${players}`);
 
     socket.emit("connectionStatus", { status: true });
 
@@ -54,15 +58,16 @@ io.on('connection', (socket) => {
         console.log("The room is full/occupied");
     }
 
-
     socket.on('mensaje', (data) => {
         console.log('Mensaje recibido:', data);
         socket.emit('respuesta', { mensaje: 'Mensaje recibido con éxito.' });
     });
 
-    // cuando se desconecta un jugador a este se le elimina de la sala
     socket.on('disconnect', () => {
+        players--;
+        io.emit("updatePlayers", players);
         console.log('Un cliente se ha desconectado:', socket.id);
+        console.log(`Total jugadores: ${players}`);
         try {
             roomInstance.removePlayer(player);
         } catch (error: any) {
@@ -84,4 +89,3 @@ try {
 } catch (error: any) {
     console.error(`Error occurred: ${error.message}`);
 }
-

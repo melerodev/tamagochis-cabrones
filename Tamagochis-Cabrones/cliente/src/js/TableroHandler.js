@@ -33,7 +33,7 @@ export const TableroHandler = {
                 cell.setAttribute("id", count++);
 
                 if (shrub.includes(parseInt(cell.getAttribute("id")))) {
-                    cell.innerHTML = `<i class="fa-solid fa-cloud"></i>`;
+                    cell.innerHTML = `<i class="fa-solid fa-cloud" style="color: green"></i>`;
                 }
 
                 row.appendChild(cell);
@@ -79,8 +79,7 @@ export const TableroHandler = {
                 break;
         }
 
-        console.log(position);
-        console.log(document.getElementById(0).children.length === 0)
+        console.log("La posición a la que se a asignar el usuario será: " + position);
 
         document.getElementById(position).innerHTML = `<i id=${playerID} class="fa-solid fa-user" style="color: ${color}"></i>`;    
     },
