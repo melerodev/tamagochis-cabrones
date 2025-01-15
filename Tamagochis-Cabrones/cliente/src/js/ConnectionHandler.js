@@ -1,5 +1,5 @@
 import { io, Socket } from "../../node_modules/socket.io-client/dist/socket.io.esm.min.js";
-import { Tablero } from "./Tablero.js";
+import { TableroHandler } from "./TableroHandler.js";
 
 export const ConnectionHandler = {
     players: [],
@@ -9,8 +9,8 @@ export const ConnectionHandler = {
         socket.on("connect", () => {
             console.log(connectedCallback);
             // socket.emit("mensaje", "hola");
-            // this.players.push(socket.id);
-            // addPerson(this.players.length);
+            this.players.push(socket.id);
+            TableroHandler.addPerson(this.players.length);
         });
 
         socket.on("disconnect", (reason) => {

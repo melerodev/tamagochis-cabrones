@@ -37,8 +37,13 @@ io.on('connection', (socket) => {
         direction: 0,
         visibility: true
     }
+    
+    try {
+        roomInstance.addPlayer(player);
+    } catch (error: any) {
+        console.error(`Error occurred: ${error.message}`);
+    }
 
-    roomInstance.addPlayer(player);
     socket.emit("game", {
         type: "newPlayer",
     })
@@ -58,7 +63,11 @@ io.on('connection', (socket) => {
     // cuando se desconecta un jugador a este se le elimina de la sala
     socket.on('disconnect', () => {
         console.log('Un cliente se ha desconectado:', socket.id);
-        roomInstance.removePlayer(player);
+        try {
+            roomInstance.removePlayer(player);
+        } catch (error: any) {
+            console.error(`Error occurred: ${error.message}`);
+        }
     });
 });
 

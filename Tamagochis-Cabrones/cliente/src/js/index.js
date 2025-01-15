@@ -1,6 +1,5 @@
 import { ConnectionHandler } from "./ConnectionHandler.js";
-import { Tablero } from "./Tablero.js";
+import { TableroHandler } from "./TableroHandler.js";
 
-ConnectionHandler.init("http://localhosñt:3000", "Se ha conectado", "Se ha desconectado");
-
-Tablero.init(8, 8, 4);
+ConnectionHandler.init("http://localhost:3000", "Se ha conectado", "Se ha desconectado");
+TableroHandler.init(8, 8, 4);
