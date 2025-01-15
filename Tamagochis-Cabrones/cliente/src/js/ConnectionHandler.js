@@ -8,6 +8,7 @@ export const ConnectionHandler = {
         socket.on("connect", () => {
             console.log(connectedCallback);
             // socket.emit("mensaje", "hola");
+            this.players.push(socket.id);
         });
 
         socket.on("disconnect", (reason) => {
@@ -15,8 +16,8 @@ export const ConnectionHandler = {
             console.log(reason);
         });
 
-        document.querySelector(".join").addEventListener("click", () => {
-            socket.emit("joinRoom", "hola");
+        socket.on("game", (players) => {
+            this.players = players;
         });
     },
 }
