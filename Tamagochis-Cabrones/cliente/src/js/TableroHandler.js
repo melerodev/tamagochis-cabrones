@@ -64,21 +64,28 @@ export const TableroHandler = {
                 break;
         }
 
-        if (document.getElementById("0") != null) { // si la primera celda esta vacia
-            position = 0;
-        } else if (document.getElementById(this.rows - 1) != null) { // si la ultima celda de la primera fila esta vacia 
-            position = this.rows - 1;
-        } else if (document.getElementById(this.rows * this.colums - 1) != null) { // si la última celda en la esquina inferior derecha de la tabla. esta vacia
-            position = this.rows * this.colums - 1;
-        } else if (document.getElementById(this.rows * this.colums - this.rows) != null) { // si la última celda en la esquina inferior izquierda de la tabla. esta vacia
-            position = this.rows * this.colums - this.rows;
+        switch (true) {
+            case (document.getElementById(0).children.length === 0): // si la primera celda esta vacia
+                position = 0;
+                break;
+            case (document.getElementById(this.rows - 1).children.length === 0): // si la ultima celda de la primera fila esta vacia
+                position = this.rows - 1;
+                break;
+            case (document.getElementById(this.rows * this.colums - 1).children.length === 0): // si la última celda en la esquina inferior derecha de la tabla. esta vacia
+                position = this.rows * this.colums - 1;
+                break;
+            case (document.getElementById(this.rows * this.colums - this.rows).children.length === 0): // si la última celda en la esquina inferior izquierda de la tabla. esta vacia
+                position = this.rows * this.colums - this.rows;
+                break;
         }
-        console.log(this.rows - 1);
+
+        console.log(position);
+        console.log(document.getElementById(0).children.length === 0)
 
         document.getElementById(position).innerHTML = `<i id=${playerID} class="fa-solid fa-user" style="color: ${color}"></i>`;    
     },
 
     removePlayerFromTablero(playerID) {
-        document.getElementById(playerID).remove();
+        
     }
 };
