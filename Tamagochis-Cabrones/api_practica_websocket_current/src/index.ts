@@ -38,48 +38,35 @@ io.on('connection', (socket) => {
         visibility: true
     }
 
-    // roomInstace.addPlayer(player);
-    // socket.emit("game", {
-    //     type : "newPlayer",
-    // })
+    roomInstance.addPlayer(player);
+    socket.emit("game", {
+        type: "newPlayer",
+    })
 
-    socket.on('joinRoom', (data) => {
-        player.id = data.id;
-        roomInstance.addPlayer(player);
-        socket.emit("game", {
-            type: "newPlayer",
-        });
+    const room = roomInstance.getRoomByPlayer(player);
+    if (room && roomInstance.getNumPlayersInRoom(room) == 4) {
+        room.occupied = true;
+        console.log("The room is full/occupied");
+    }
 
-        // si la sala está llena, la sala se marca como ocupada
-        if (roomInstance.getNumPlayersInRoom(roomInstance.getRoomByPlayer(player)) == 4) {
-            roomInstance.getRoomByPlayer(player).occupied = true;
-            console.log("The room is full/occupied");
-        }
-    });
 
     socket.on('mensaje', (data) => {
         console.log('Mensaje recibido:', data);
         socket.emit('respuesta', { mensaje: 'Mensaje recibido con éxito.' });
     });
 
-    // cuando se desconecta un jugador a este se le elimina de la 
-    // sala y se comprueba si la sala queda vacía para eliminarla 
+    // cuando se desconecta un jugador a este se le elimina de la sala
     socket.on('disconnect', () => {
         console.log('Un cliente se ha desconectado:', socket.id);
         roomInstance.removePlayer(player);
-        if (roomInstance.getNumPlayersInRoom(roomInstance.getRoomByPlayer(player)) == 0) { // si la sala queda vacía se elimina
-            roomInstance.deleteRoom(roomInstance.getRoomByPlayer(player));
-        }
     });
 });
-
 
 app.get('/', async (req: Request, res: Response): Promise<Response> => {
     return res.status(200).send({
         message: 'Hello World!',
     });
 });
-
 
 try {
     httpServer.listen(PORT, (): void => {

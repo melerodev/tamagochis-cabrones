@@ -17,8 +17,7 @@ export class RoomService {
     }
 
     public addPlayer(player: Player) {
-        const room = this.rooms.find((item) => item.occupied == false); // busca una sala que no esté ocupada
-
+        const room = this.rooms.find((item) => item.occupied == false);
         if (room == undefined) {
             const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
             const currentRoom: Room = {
@@ -33,36 +32,29 @@ export class RoomService {
             if (room.players.length == 4) room.occupied = true;
             player.id.join(room.name as string);
         }
-
-        // aquí por alguna extraña razón TS me decía "room es posiblemente "undefined", 
-        // así que lo que hice fue preguntar si room era undefined y si no lo era
         if (room) {
-            console.log("Player " + player.id.id + " added to room " + room.name);
+            console.log("Player " + player.id.id + " added to a room");
         }
     }
+
 
     public removePlayer(player: Player) {
         const room = this.rooms.find((item) => item.players.includes(player)); // busca la sala en la que se encuentra el jugador
 
-        if (room == undefined) { // si no se encuentra la sala, lanza un error
-            throw new Error("Player not found in any room");
-        }
+        if (room) {
+            room.players = room.players.filter((item) => item != player); // elimina al jugador de la sala
+            if (room.players.length == 0) { // si la sala queda vacía, se elimina
+                this.rooms = this.rooms.filter((item) => item != room);
+                console.log(room.name + " deleted");
+            }
 
-        room.players = room.players.filter((item) => item != player); // elimina al jugador de la sala
-        if (room.players.length == 0) { // si la sala queda vacía, la elimina
-            this.rooms = this.rooms.filter((item) => item != room);
+            console.log("Player " + player.id.id + " removed from room " + room.name);
         }
-
-        console.log("Player " + player.id.id + " removed from room " + room.name);
     }
 
-    public getRoomByPlayer(player: Player): Room {
-        const room = this.rooms.find((item) => item.players.includes(player)); // busca la sala en la que se encuentra el jugador
-
-        if (room == undefined) { // si no se encuentra la sala, lanza un error
-            throw new Error("Player not found in any room");
-        }
-
+    public getRoomByPlayer(player: Player): Room | undefined {
+        const room = this.rooms.find((item) => item.players.includes(player));
+        
         return room;
     }
 

@@ -1,4 +1,4 @@
-import { io } from "../../node_modules/socket.io-client/dist/socket.io.esm.min.js";
+import { io, Socket } from "../../node_modules/socket.io-client/dist/socket.io.esm.min.js";
 
 export const ConnectionHandler = {
     players: [],
@@ -15,6 +15,8 @@ export const ConnectionHandler = {
             console.log(reason);
         });
 
-        const joinButtons = document.querySelector("join");
+        document.querySelector(".join").addEventListener("click", () => {
+            socket.emit("joinRoom", "hola");
+        });
     },
 }
