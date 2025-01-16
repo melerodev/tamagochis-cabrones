@@ -41,7 +41,7 @@ export class ServerService {
             const player = GameService.getInstance().buildPlayer(socket);
             GameService.getInstance().addPlayer(player);
 
-            // emitir un evento con los daots del tablero a los jugadores
+            // emitir un evento con los datos del tablero a los jugadores
             const game = GameService.getInstance().getGameByPlayer(player);
             if (game) {
                 socket.emit ('board', game.board);

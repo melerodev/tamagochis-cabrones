@@ -13,28 +13,28 @@ export const BoardHandler = {
         table.className = "tablero";
         let count = 0;
         
+        // crear los TR y TD y asignarles un ID
         for (let i = 0; i < rows; i++) {
-            const row = document.createElement("tr");
+            const row = document.createElement("tr"); //  se crea el TR
 
-            for (let j = 0; j < colums; j++) {
+            for (let j = 0; j < colums; j++) { // se crean los TD
+                const cell = document.createElement("td"); // se crea el TD
+                cell.setAttribute("id", count++); // se le asigna un ID
 
-                const cell = document.createElement("td");
-                cell.setAttribute("id", count++);
-
-                row.appendChild(cell);
+                row.appendChild(cell); // se añade el TD al TR
             }
-            table.appendChild(row);
+            table.appendChild(row); // se añade el TR a la tabla
         }
 
-        container.appendChild(table); 
+        container.appendChild(table); // se añade la tabla al contenedor
 
+        // añadir los arbustos
         for (let i = 0; i < shrubs.elements.length; i++) {
-            const shrub = shrubs.elements[i];
+            const shrub = shrubs.elements[i]; // se obtiene el arbusto
 
             const coords = parseInt(shrub.x.toString() + shrub.y.toString());
             document.getElementById(coords).innerHTML = `<i class="fa-solid fa-cloud" style="color: green"></i>`;
             // document.getElementById(coords).textContent = "🌳";
-
         }
     },
 };

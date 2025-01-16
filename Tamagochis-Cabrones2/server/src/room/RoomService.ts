@@ -42,9 +42,7 @@ export class RoomService {
     }
 
     public getRoomByPlayer(player: Player): Room | undefined {
-        const room = this.rooms.find((item) => item.players.includes(player));
-        
-        return room;
+        return this.rooms.find((item) => item.players.includes(player));
     }
 
     public removePlayer(player: Player) {
