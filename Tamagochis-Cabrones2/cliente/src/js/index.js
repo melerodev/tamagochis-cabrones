@@ -7,8 +7,5 @@ socket.on("connection", (data) => {
 });
 
 socket.on("board", (data) => {
-    console.log(data);
-    BoardHandler.init(10, 10, 4);
+    BoardHandler.init(10, 10, data);
 });
-
-console.log(socket);
