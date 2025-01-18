@@ -44,8 +44,11 @@ export class GameService {
                 board: new BoardBuilder().getBoard(),
                 numberOfPlayers: room.players.length
             }
+            console.log(game.numberOfPlayers);
             room.game = game;
             this.games.push(game);
+        } else if (room.game) {
+            room.game.numberOfPlayers = room.players.length;
         }
 
         console.log(room.players.length);
