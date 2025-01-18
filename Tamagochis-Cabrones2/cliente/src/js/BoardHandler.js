@@ -3,11 +3,11 @@ export const BoardHandler = {
     colums: 0,
     shrubs: [],
 
-    init(rows, colums, shrubs) {
+    init(rows, colums, game) {
         this.rows = rows;
         this.colums = colums;
-        this.shrubs = shrubs;
-
+        this.shrubs = game;
+        
         const container = document.querySelector(".container");
         const table = document.createElement("table");
         table.className = "tablero";
@@ -29,8 +29,8 @@ export const BoardHandler = {
         container.appendChild(table); // se añade la tabla al contenedor
 
         // añadir los arbustos
-        for (let i = 0; i < shrubs.elements.length; i++) {
-            const shrub = shrubs.elements[i]; // se obtiene el arbusto
+        for (let i = 0; i < game.board.elements.length; i++) {
+            const shrub = game.board.elements[i]; // se obtiene el arbusto
 
             const coords = parseInt(shrub.x.toString() + shrub.y.toString());
             document.getElementById(coords).innerHTML = `<i class="fa-solid fa-cloud" style="color: green"></i>`;

@@ -10,4 +10,5 @@ export interface Game {
     state: GameStates,
     room: Room,
     board: Board
+    numberOfPlayers: number
 }

@@ -2,6 +2,8 @@ import { DefaultEventsMap, Server, Socket } from 'socket.io';
 import http from 'http';
 import { Directions, Player, PlayerStates } from '../player/entities/Player';
 import { GameService } from '../game/GameService';
+import { ActionType } from './MessageList';
+import { Movement } from './Doins/Movement';  
 
 export class ServerService {
     private io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null;
@@ -41,12 +43,45 @@ export class ServerService {
             const player = GameService.getInstance().buildPlayer(socket);
             GameService.getInstance().addPlayer(player);
 
-            // emitir un evento con los datos del tablero a los jugadores
             const game = GameService.getInstance().getGameByPlayer(player);
+
             if (game) {
-                socket.emit ('board', game.board);
+                // console.log(game);
+                socket.emit ('board', {
+                    id : game.id,
+                    state: game.state,
+                    // room: game.room **si intento enviar la sala, se rompe**
+                    board: game.board,
+                    numberOfPlayers: game.numberOfPlayers
+                });
                 console.log('Enviando tablero a:', socket.id);
             }
+
+            socket.on('message' , (data) => {
+                data = data.toUpperCase();
+                if (Object.values(ActionType).includes(data)) {
+                    switch (data) {
+                        case data = ActionType.Start:
+                            console.log('Inicio de juego');
+                            break;
+                        case data = ActionType.Movement:
+                            new Movement().do();
+                            break;
+                        case data = ActionType.Kill:
+                            console.log('Muerte');
+                            break;
+                        case data = ActionType.Rotate:
+                            console.log('Rotación');
+                            break;
+                        case data = ActionType.Hided:
+                            console.log('Oculto');
+                            break;
+                        default:
+                            console.log('No se encontró ninguna acción con el nombre:', data);
+                            break;
+                    }
+                }
+            });
             
             socket.on('disconnect', () => {
                 console.log('Un cliente se ha desconectado:', socket.id);

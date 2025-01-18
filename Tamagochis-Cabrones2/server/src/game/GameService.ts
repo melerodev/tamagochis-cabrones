@@ -41,12 +41,15 @@ export class GameService {
                 id: "game" + genRanHex(128),
                 state: GameStates.WAITING,
                 room: room,
-                board: new BoardBuilder().getBoard()
+                board: new BoardBuilder().getBoard(),
+                numberOfPlayers: room.players.length
             }
             room.game = game;
             this.games.push(game);
         }
 
+        console.log(room.players.length);
+        
         if (room.occupied) {
             if (room.game) {
                 room.game.state = GameStates.PLAYING;
@@ -67,6 +70,7 @@ export class GameService {
             RoomService.getInstance().removePlayer(player);
             if (room.game) {
                 room.game.state = GameStates.WAITING;
+                room.game.numberOfPlayers = room.players.length;
             }
         }
 
