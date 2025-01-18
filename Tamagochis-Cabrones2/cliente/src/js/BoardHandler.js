@@ -7,6 +7,7 @@ export const BoardHandler = {
         this.rows = rows;
         this.colums = colums;
         this.shrubs = game;
+        console.log(game);
         
         const container = document.querySelector(".container");
         const table = document.createElement("table");
@@ -35,6 +36,32 @@ export const BoardHandler = {
             const coords = parseInt(shrub.x.toString() + shrub.y.toString());
             document.getElementById(coords).innerHTML = `<i class="fa-solid fa-cloud" style="color: green"></i>`;
             // document.getElementById(coords).textContent = "🌳";
+        }
+
+        // añadir el personaje
+        for (let i = 0; i < game.numberOfPlayers; i++) {
+            let numberOfPlayers = game.numberOfPlayers;
+            console.log(numberOfPlayers);
+            switch(numberOfPlayers) {
+                case 1:
+                    document.getElementById(0).innerHTML = `<i class="fa-solid fa-person" style="color: red"></i>`;
+                    break;
+                case 2:
+                    document.getElementById(0).innerHTML = `<i class="fa-solid fa-person" style="color: red"></i>`;
+                    document.getElementById(9).innerHTML = `<i class="fa-solid fa-person" style="color: brown"></i>`;
+                    break;
+                case 3:
+                    document.getElementById(0).innerHTML = `<i class="fa-solid fa-person" style="color: red"></i>`;
+                    document.getElementById(9).innerHTML = `<i class="fa-solid fa-person" style="color: brown"></i>`;
+                    document.getElementById(90).innerHTML = `<i class="fa-solid fa-person" style="color: purple"></i>`;
+                    break;
+                case 4:
+                    document.getElementById(0).innerHTML = `<i class="fa-solid fa-person" style="color: red"></i>`;
+                    document.getElementById(9).innerHTML = `<i class="fa-solid fa-person" style="color: brown"></i>`;
+                    document.getElementById(90).innerHTML = `<i class="fa-solid fa-person" style="color: purple"></i>`; 
+                    document.getElementById(99).innerHTML = `<i class="fa-solid fa-person" style="color: orange"></i>`;
+                    break;
+            }
         }
     },
 };

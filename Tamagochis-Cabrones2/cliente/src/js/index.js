@@ -12,3 +12,7 @@ socket.emit("message", "movement");
 socket.on("board", (data) => {
     BoardHandler.init(10, 10, data);
 });
+
+socket.on("disconnect", (data) => {
+    BoardHandler.init(10, 10, data);
+});

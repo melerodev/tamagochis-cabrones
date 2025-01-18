@@ -44,7 +44,6 @@ export class ServerService {
             GameService.getInstance().addPlayer(player);
 
             const game = GameService.getInstance().getGameByPlayer(player);
-            console.log(game);
 
             if (game) {
                 // console.log(game);
