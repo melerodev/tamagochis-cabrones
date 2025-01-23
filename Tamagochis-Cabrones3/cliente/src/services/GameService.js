@@ -31,13 +31,13 @@ export class GameService {
 
     do_newPlayer (data) {
         console.log(data);
-    };
+    }
     do_startGame (data) {
         console.log(data);
     }
     do_endGame (data) {
         console.log(data);
-    };
+    }
     do_playerDisconnected (data) {
         console.log(data);	
     }
