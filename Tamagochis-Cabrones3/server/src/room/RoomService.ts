@@ -41,11 +41,7 @@ export class RoomService {
         return room;  
     }
 
-    // public removePlayer(player: Number) {
-    //     // NO ESTÁ HECHO
-    //     this.getRoomByPlayer
-    // }
-
-    // public getRoomByPlayer(id: number) : Room | undefined {
-    // }
+    public getRoomByPlayer(player : Player) : Room | undefined {
+        return this.rooms.find((item) => item.players.find((p) => p.id == player.id) !== undefined);
+    }
 }

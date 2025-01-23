@@ -9,10 +9,14 @@ export const ConnectionHandler = {
     init: (url, onConnectedCallBack, onDisconnectedCallBack) => {
         let { socket } = ConnectionHandler; 
         socket = io(url);
-        // socket.onAny((data) => {
-        //     console.log("Esta llegando: " + data);
-        //     ConnectionHandler.gameService.do(data);
-        // });
+        socket.onAny((event, data) => {
+            const eventRequestData = {
+                action: event, 
+                data: data
+            };
+
+            ConnectionHandler.gameService.do(eventRequestData);
+        });
         socket.on("connect", (data) => {
             socket.on("connectionStatus", (data) => {
                 ConnectionHandler.connected = true;
@@ -21,9 +25,10 @@ export const ConnectionHandler = {
             });
         })
 
-        socket.on('message', (data) => {
+        socket.on("disconnect", (data) => {
+            ConnectionHandler.connected = false;
             console.log(data);
-            // ConnectionHandler.gameService.do(data);
-        });
+            onDisconnectedCallBack();
+        })
     }
 }

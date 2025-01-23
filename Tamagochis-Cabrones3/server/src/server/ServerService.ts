@@ -3,6 +3,8 @@ import http from 'http';
 import { GameService } from '../game/GameService';
 import { RoomService } from '../room/RoomService';
 import { Message } from '../game/entities/Game';
+import { measureMemory } from 'vm';
+import { Board } from '../game/entities/Board';
 
 export class ServerService {
     private io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null;
@@ -48,7 +50,6 @@ export class ServerService {
         this.active = true;
 
         this.io.on('connection', (socket) => {
-            socket.emit("connectionStatus", { status: true });
             GameService.getInstance().addPlayer(GameService.getInstance().buildPlayer(socket));
             
             socket.on("message", (data)=>{
@@ -60,8 +61,10 @@ export class ServerService {
 
             socket.on('disconnect', () => {
                 console.log('Un cliente se ha desconectado:', socket.id);
-                RoomService.getInstance().removePlayer(socket.id);
-
+                const room = RoomService.getInstance().getRoomByPlayer(GameService.getInstance().buildPlayer(socket));
+                if (room) {
+                    this.sendMessage(room.name, Message.DISCONNECTED, socket.id);
+                }
             });
         });
     }
@@ -70,12 +73,12 @@ export class ServerService {
         player.join(room.toString());
     }
 
-    public sendMessage(room: String | null ,type: String, content: String) {
-        if (this.active && this.io!=null) {
+    public sendMessage(room: String | null, type: String, content: String | Board) {
+        if (this.active && this.io != null) {
             if (room != null) {
                     this.io.to(room.toString()).emit(type.toString(), { 
-                        type, 
-                        content
+                        type: type, 
+                        content : content
                     });
             }
         }

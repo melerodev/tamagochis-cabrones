@@ -1,3 +1,5 @@
+import { BoardHandler } from './BoardHandler.js';
+
 export class GameService {
     #states = {
         WAITING : 0,
@@ -8,38 +10,39 @@ export class GameService {
     #board = null;
     #state = null;
     #actionsList = {
-        "NEW_PLAYER" : this.do_newPlayer,
+        "PLAYER" : this.do_newPlayer,
         "START_GAME" : this.do_startGame,
         "END_GAME" : this.do_endGame,
-        "PLAYER_DISCONNECTED" : this.do_playerDisconnected,
-        "connectionStatus" : this.do_connectionStatus,
+        "DISCONNECTED" : this.do_playerDisconnected,
+        "BOARD" : this.do_board,
     };
     constructor(){
         this.#state = this.#states.WAITING
     }
-    do (data) {
-        const actionFunction = this.#actionsList[data];
-        if (this.#actionsList[data]) {
-            this.#actionsList.call(this, data);
-            // ejercutar la función
-            
+    do (eventRequestData) {
+        const actionFunction = this.#actionsList[eventRequestData.action];
+        if (this.#actionsList[eventRequestData.action]) {
+            // this.#actionsList.call(this, data);
+            actionFunction(eventRequestData.data);            
         } else {
-            console.error("No se ha encontrado la acción: " + data);
+            console.error("No se ha encontrado la acción: " + eventRequestData.event);
         }
     };
-    do_newPlayer (content) {
-        console.log("Ha llegado un jugador nuevo");
+
+    do_newPlayer (data) {
+        console.log(data);
     };
-    do_startGame (content) {
-        console.log("El juego ha comenzado");
+    do_startGame (data) {
+        console.log(data);
     }
-    do_endGame (content) {
-        console.log("El juego ha terminado");
+    do_endGame (data) {
+        console.log(data);
     };
-    do_playerDisconnected (content) {
-        console.log("Un jugador se ha desconectado");
+    do_playerDisconnected (data) {
+        console.log(data);	
     }
-    do_connectionStatus (content) {
-        console.log("El estado de la conexión es: " + content);
+    do_board (data) {
+        BoardHandler.init(10, 10, data.content);
+        console.log("Se ha creado un tablero");
     }
 }

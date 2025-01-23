@@ -34,7 +34,7 @@ export class GameService {
 
     public addPlayer(player: Player): boolean {
         const room: Room = RoomService.getInstance().addPlayer(player);
-        ServerService.getInstance().sendMessage(room.name, Message.PLAYER, player.id.toString());
+        ServerService.getInstance().sendMessage(room.name, Message.PLAYER, player.id.id);
         const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         if (room.players.length == 1) {
             const game: Game = {
@@ -45,7 +45,7 @@ export class GameService {
             }
             room.game = game;
             this.games.push(game);
-            ServerService.getInstance().sendMessage(room.name, Message.BOARD, JSON.stringify(game.board));
+            ServerService.getInstance().sendMessage(room.name, Message.BOARD, game.board);
         }
 
         if (room.occupied) {
@@ -57,9 +57,7 @@ export class GameService {
             }
             return true;
         }
-
+        
         return false;
     }
-
-    
 }
