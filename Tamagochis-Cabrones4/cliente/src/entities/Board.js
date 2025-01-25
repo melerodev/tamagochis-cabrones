@@ -29,10 +29,7 @@ export class Board {
         this.#state = this.#states.BUILD;
     }
 
-    get board() {
-        if (this.#state === this.#states.BUILD) {
-            return this.#board;
-        }
-        return undefined;
+    get getBoard() {
+        return this.#board;
     }
 }

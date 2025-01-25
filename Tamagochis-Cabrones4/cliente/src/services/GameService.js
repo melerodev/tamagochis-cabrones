@@ -60,7 +60,7 @@ export class GameService {
 
     do_newBoard(payload) {
         this.#board.build(payload.content);
-        this.#ui.drawBoard();
+        this.#ui.drawBoard(this.#board.getBoard);
     }
 }
 
