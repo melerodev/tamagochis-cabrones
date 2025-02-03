@@ -1,4 +1,5 @@
 import { Board } from "../entities/Board.js";
+
 export class GameService {
     #states = {
         WAITING : 0,
@@ -18,10 +19,16 @@ export class GameService {
         "DISCONNECTED" : this.do_playerDisconnected.bind(this),
         "BOARD" : this.do_newBoard.bind(this),
     };
-    
+
+    static instance = null;
+
     constructor(){
+        if (GameService.instance) {
+            return GameService.instance;
+        }
         this.#state = this.#states.WAITING;
         this.#board = new Board();
+        GameService.instance = this;
     }
 
     set uiSetter(ui){
@@ -31,10 +38,10 @@ export class GameService {
     get uiGetter(){
         return this.#ui;
     }
-
+    
     do (eventRequestData) {
         const actionFunction = this.#actionsList[eventRequestData.action];
-        console.log("La UI es : " + this.#ui);
+        console.log(this.instance);
         if (this.#actionsList[eventRequestData.action]) {
             actionFunction(eventRequestData.data);
         } else {
@@ -63,4 +70,3 @@ export class GameService {
         this.#ui.drawBoard(this.#board.getBoard);
     }
 }
-
