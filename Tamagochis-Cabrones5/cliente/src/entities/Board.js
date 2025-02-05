@@ -1,6 +1,8 @@
 export const ELEMENTS = {
     bush : 5,
+    player: 1 // Añadir un nuevo elemento para el jugador
 };
+
 export class Board {
     #map = null;
     #states = {
@@ -18,6 +20,11 @@ export class Board {
         this.#map = new Array(size).fill().map(() => new Array(size).fill(0));
         elements.forEach(element=> this.#map[element.x][element.y]= ELEMENTS.bush);
         this.#state = this.#states.BUILD;
+    }
+
+    addPlayer(player) {
+        this.#map[player.x][player.y] = ELEMENTS.player;
+        console.log("Jugador añadido al tablero");
     }
 
     get map() {
