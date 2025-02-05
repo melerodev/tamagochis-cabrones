@@ -16,13 +16,14 @@ UIv1.drawBoard = (board) => {
         board.forEach(element => element.forEach((element) => {
             const tile = document.createElement("div");
             if (element === 5) {
-                // const iElement = document.createElement("i");
-                // iElement.className = "fa-solid fa-cloud";
-                // iElement.style.color = "green";
-                // td.appendChild(iElement);
                 const iElement = document.createElement("i");
                 iElement.className = "fa-solid fa-cloud";
                 iElement.style.color = "green";
+                tile.appendChild(iElement);
+            } else if (element === 1) {
+                const iElement = document.createElement("i");
+                iElement.className = "fa-solid fa-user";
+                iElement.style.color = "red";
                 tile.appendChild(iElement);
             }
             tile.classList.add("tile");
