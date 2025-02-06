@@ -1,6 +1,5 @@
 import { Board } from "../entities/Board.js";
 import { Queue } from "../Queue.js";
-
 export class GameService {
     #states = {
         WAITING : 0,
@@ -56,26 +55,12 @@ export class GameService {
     };
 
     async do_newPlayer (payload) {
-        console.log("Ha llegado un jugador nuevo");
-        this.#players.push({ x: payload.x, y: payload.y });
-
-        // Esperar un segundo antes de añadir al jugador al tablero para que de tiempo a crear el tablero
-        setTimeout(() => {
-            if (this.#state === this.#states.PLAYING) {
-                this.#board.addPlayer(payload);
-            }
-        }, 1);
+        console.log("ha llegado un jugador nuevo");
     };
 
     async do_newBoard(payload) {
-        console.log("Ha llegado un nuevo tablero");
-        this.#state = this.#states.PLAYING;
         this.#board.build(payload);
         this.#ui.drawBoard(this.#board.map);
-        console.log(this.#board.map);
     }
-
-    getPlayers() {
-        return this.#players;
-    }
+    
 }

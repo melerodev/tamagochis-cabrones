@@ -15,19 +15,23 @@ UIv1.drawBoard = (board) => {
         base.style.gridTemplateRows = `repeat(${board.length}, 100px)`;
         board.forEach(element => element.forEach((element) => {
             const tile = document.createElement("div");
-            if (element === 5) {
-                const iElement = document.createElement("i");
-                iElement.className = "fa-solid fa-cloud";
-                iElement.style.color = "green";
-                tile.appendChild(iElement);
-            } else if (element === 1) {
-                const iElement = document.createElement("i");
-                iElement.className = "fa-solid fa-user";
-                iElement.style.color = "red";
-                tile.appendChild(iElement);
-            }
+            const iElement = document.createElement("i");
             tile.classList.add("tile");
             base.appendChild(tile);
+            
+            // if (element == 5) {
+            //     const bush = document.createElement("i");
+            //     bush.className = "fa-solid fa-cloud";
+            //     bush.style.color = "green";
+            //     tile.appendChild(bush);
+            // }
+
+            // var elvisLives = Math.PI > 4 ? "Sip" : "Nop";
+
+            iElement.className = element == 5 ? "fa-solid fa-cloud" : element == 1 ? "fa-solid fa-user" : "";
+
+            tile.appendChild(iElement);
+
             anime({
                 targets: tile,
                 opacity: [0, 1],
