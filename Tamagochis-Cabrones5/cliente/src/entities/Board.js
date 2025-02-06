@@ -1,5 +1,6 @@
 export const ELEMENTS = {
     bush : 5,
+    player: 1
 };
 export class Board {
     #map = null;
@@ -24,5 +25,10 @@ export class Board {
         if (this.#state === this.#states.BUILD) {
             return this.#map;
         } return undefined;
+    }
+
+    addPlayer(players) {
+        console.log(players);
+        players.forEach(players => this.#map[players.x][players.y] = ELEMENTS.player);
     }
 }

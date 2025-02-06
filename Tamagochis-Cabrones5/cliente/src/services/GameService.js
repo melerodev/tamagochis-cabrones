@@ -15,7 +15,8 @@ export class GameService {
 
     #actionsList = {
         "NEW_PLAYER" : this.do_newPlayer.bind(this),
-        "BOARD" : this.do_newBoard.bind(this)
+        "BOARD" : this.do_newBoard.bind(this),
+        "DISCONNECTED" : this.do_disconnect.bind(this)
     };
 
     constructor(ui){
@@ -55,12 +56,18 @@ export class GameService {
     };
 
     async do_newPlayer (payload) {
-        console.log("ha llegado un jugador nuevo");
+        this.#players.push(payload);
     };
 
     async do_newBoard(payload) {
         this.#board.build(payload);
+        console.log(this.#players);
+        this.#board.addPlayer(this.#players);
+        console.log(this.#board.map);
         this.#ui.drawBoard(this.#board.map);
     }
     
+    async do_disconnect(payload) {
+        this.#players = this.#players.filter(player => player.id != payload);
+    }
 }

@@ -34,8 +34,16 @@ export class GameService {
 
     public addPlayer(player: Player): boolean {
         const room: Room = RoomService.getInstance().addPlayer(player);
+        const playerData = {
+            id: player.id.id,
+            x: player.x,
+            y: player.y,
+            state: player.state,
+            direction: player.direction,
+            visibility: player.visibility
+        };
         //ServerService.getInstance().sendMessage(room.name,ServerService.messages.out.new_player,"new player");
-        ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, "new player");
+        ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, playerData);
         const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         if (room.players.length == 1) {
             const game: Game = {
