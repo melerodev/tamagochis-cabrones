@@ -30,4 +30,13 @@ export class BoardBuilder {
     public getBoard() : Board {
         return this.board;
     }
+
+    public getCorners() : Array<{x : number, y : number}> {
+        return [
+            {x : 0, y : 0},
+            {x : 0, y : this.board.size},
+            {x : this.board.size, y : 0},
+            {x : this.board.size, y : this.board.size}
+        ]
+    }
 }

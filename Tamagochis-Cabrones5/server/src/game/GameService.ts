@@ -5,6 +5,7 @@ import { RoomService } from "../room/RoomService";
 import { Game, GameStates, Messages } from "./entities/Game";
 import { BoardBuilder } from "./BoardBuilder";
 import { ServerService } from "../server/ServerService"
+
 export class GameService {
     private games: Game[];
 
@@ -21,7 +22,7 @@ export class GameService {
         return this.instance;
     }
 
-    public buildPlayer(socket: Socket): Player {
+    public buildPlayer(socket: Socket,): Player {
         return {
             id: socket,
             x: 0,
@@ -33,16 +34,24 @@ export class GameService {
     }
 
     public addPlayer(player: Player): boolean {
-        const room: Room = RoomService.getInstance().addPlayer(player);
+        const playerMofied = player;
+        const boardBuilder = new BoardBuilder();
+
+        // console.log(boardBuilder.getCorners()[Math.floor(Math.random() * boardBuilder.getCorners().length)]);
+        const coords = boardBuilder.getCorners()[Math.floor(Math.random() * boardBuilder.getCorners().length)];
+        console.log(coords);
+        
+        const room: Room = RoomService.getInstance().addPlayer(playerMofied);
+
         const playerData = {
-            id: player.id.id,
-            x: player.x,
-            y: player.y,
-            state: player.state,
-            direction: player.direction,
-            visibility: player.visibility
+            id: playerMofied.id.id,
+            x: 9,
+            y: 0,
+            state: playerMofied.state,
+            direction: playerMofied.direction,
+            visibility: playerMofied.visibility
         };
-        //ServerService.getInstance().sendMessage(room.name,ServerService.messages.out.new_player,"new player");
+
         ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, playerData);
         const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         if (room.players.length == 1) {
@@ -50,7 +59,7 @@ export class GameService {
                 id: "game" + genRanHex(128),
                 state: GameStates.WAITING,
                 room: room,
-                board: new BoardBuilder().getBoard()
+                board: boardBuilder.getBoard(),
             }
             room.game = game;
             this.games.push(game);

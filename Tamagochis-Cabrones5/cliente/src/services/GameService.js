@@ -61,9 +61,7 @@ export class GameService {
 
     async do_newBoard(payload) {
         this.#board.build(payload);
-        console.log(this.#players);
         this.#board.addPlayer(this.#players);
-        console.log(this.#board.map);
         this.#ui.drawBoard(this.#board.map);
     }
     
