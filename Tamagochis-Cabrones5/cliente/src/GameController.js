@@ -5,6 +5,7 @@ export class GameController {
     #states = {
         RIGHT : 0,
         BAD : 1,
+       
     };
     #state = null;
     #gameService = null;

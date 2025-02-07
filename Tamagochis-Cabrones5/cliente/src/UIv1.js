@@ -34,4 +34,3 @@ UIv1.drawBoard = (board) => {
 }
 
 UIv1.drawBoard();
-

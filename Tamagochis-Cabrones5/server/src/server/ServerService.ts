@@ -47,7 +47,6 @@ export class ServerService {
         this.active = true;
 
         this.io.on('connection', (socket) => {
-            console.log('Un cliente se ha conectado:', socket.id);
             socket.emit("connectionStatus", { status: true });
             GameService.getInstance().addPlayer(GameService.getInstance().buildPlayer(socket));
             
@@ -60,7 +59,6 @@ export class ServerService {
 
             socket.on('disconnect', () => {
                 console.log('Un cliente se ha desconectado:', socket.id);
-                this.sendMessage(null, "DISCONNECTED", { message: "Un cliente se ha desconectado" });
             });
         });
     }
@@ -70,6 +68,7 @@ export class ServerService {
     }
 
     public sendMessage(room: String |null ,type: String, content: any) {
+        console.log(content);
         if (this.active && this.io!=null) {
             if (room != null) {
                     this.io?.to(room.toString()).emit("message", {

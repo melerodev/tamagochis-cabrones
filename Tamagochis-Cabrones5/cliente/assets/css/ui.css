@@ -12,11 +12,3 @@
     justify-content: center;
     border: 1px dotted #000000;
 }
-
-i {
-    font-size: 50px;
-}
-
-.fa-solid.fa-cloud {
-    color: green;
-}
