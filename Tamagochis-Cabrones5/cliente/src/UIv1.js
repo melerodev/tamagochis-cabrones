@@ -19,16 +19,23 @@ UIv1.drawBoard = (board) => {
             tile.classList.add("tile");
             base.appendChild(tile);
 
-            iElement.className = element == 5 ? "fa-solid fa-cloud" : element == 1 ? "fa-solid fa-user" : "";
+            if (element == 5) {
+                iElement.className = "fa-solid fa-cloud";
+                iElement.style.color = "green";
+            } else if (element == 1) {
+                iElement.className = "fa-solid fa-user";
+            } else {
+                iElement.className = "";
+            }
 
             tile.appendChild(iElement);
 
-            anime({
-                targets: tile,
-                opacity: [0, 1],
-                duration: (Math.random() * 8000) + 1000,
-                easing: 'easeInOutQuad'
-            });
+            // anime({
+            //     targets: tile,
+            //     opacity: [0, 1],
+            //     duration: (Math.random() * 8000) + 1000,
+            //     easing: 'easeInOutQuad'
+            // });
         }));
     }
 }
