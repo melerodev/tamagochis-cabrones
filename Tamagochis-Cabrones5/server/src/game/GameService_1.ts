@@ -58,7 +58,6 @@ export class GameService {
             return true;
         }
 
-
         return false;
     }
 }
