@@ -49,7 +49,7 @@ export class GameService {
             this.games.push(game);
         }
 
-        if (room.occupied) {
+        // if (room.occupied) {
             if (room.game) {
                 room.game.boarInstance.addPlayers(room.players.length);
                 room.game.state = GameStates.PLAYING;
@@ -58,9 +58,9 @@ export class GameService {
                 }
             }
             return true;
-        } else {
-            console.log("Aun no voy a mandar el tablero ♟️");
-        }
+        // } else {
+        //     console.log("Aun no voy a mandar el tablero ♟️");
+        // }
 
         return false;
     }
