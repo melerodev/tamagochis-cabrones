@@ -20,6 +20,7 @@ export class Board {
         this.#map = new Array(size).fill().map(() => new Array(size).fill(0));
         elements.forEach(element => this.#map[element.x][element.y] = ELEMENTS.bush);
         this.#state = this.#states.BUILD;
+        console.log(this.#map);
     }
 
     get map() {
@@ -30,14 +31,19 @@ export class Board {
     }
 
     addPlayer(players) {
-        console.log(players);
         players.forEach(player => {
-            // EL PROBLEMA DE LA LÓGICA ESTÁ AQUI
-            player.x = player.x >= 10 ? player.x - 1 : player.x;
-            player.y = player.y >= 10 ? player.y - 1 : player.y;
-            console.log(player.x, player.y);
+            const corners = [{x: 0, y: 0}, {x: 0, y: this.#map.length - 1}, {x: this.#map.length - 1, y: 0}, {x: this.#map.length - 1, y: this.#map.length - 1}];
+            var occupied = true
+            var coords = null;
+            
+            while (occupied) {
+                coords = corners[Math.floor(Math.random() * corners.length)];
+                if (this.#map[coords.x][coords.y] === 0) {
+                    occupied = false;
+                }
+            }
 
-            this.#map[player.x][player.y] = ELEMENTS.player;
+            this.#map[coords.x][coords.y] = ELEMENTS.player;
         });
     }
 }
