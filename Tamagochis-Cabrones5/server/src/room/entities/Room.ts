@@ -9,5 +9,5 @@ export interface Room {
     name : String;
     players : Player[];
     occupied: Boolean;
-    game: Game |null;
+    game: Game | null;
 }

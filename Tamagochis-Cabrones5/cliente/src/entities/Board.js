@@ -1,6 +1,3 @@
-export const ELEMENTS = {
-    bush : 5,
-};
 export class Board {
     #map = null;
     #states = {
@@ -16,13 +13,14 @@ export class Board {
     build(payload) {
         const { size, elements } = payload;
         this.#map = new Array(size).fill().map(() => new Array(size).fill(0));
-        elements.forEach(element=> this.#map[element.x][element.y]= ELEMENTS.bush);
+        elements.forEach(element => this.#map[element.x][element.y] = element.type);
         this.#state = this.#states.BUILD;
     }
 
     get map() {
         if (this.#state === this.#states.BUILD) {
             return this.#map;
-        } return undefined;
+        } 
+        return undefined;
     }
 }

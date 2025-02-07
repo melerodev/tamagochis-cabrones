@@ -1,4 +1,5 @@
 import { Room } from "../../room/entities/Room";
+import { BoardBuilder } from "../BoardBuilder";
 import { Board } from "./Board";
 
 export enum GameStates {
@@ -14,5 +15,6 @@ export interface Game {
     id : String,
     state: GameStates,
     room: Room,
-    board: Board
+    board: Board,
+    boarInstance: BoardBuilder
 }

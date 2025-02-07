@@ -55,12 +55,14 @@ export class GameService {
     };
 
     async do_newPlayer (payload) {
-        console.log("ha llegado un jugador nuevo");
+        this.#players.push(payload);
     };
 
     async do_newBoard(payload) {
+        console.log(payload);
         this.#board.build(payload);
         this.#ui.drawBoard(this.#board.map);
+        console.log(this.#board);
     }
     
 }

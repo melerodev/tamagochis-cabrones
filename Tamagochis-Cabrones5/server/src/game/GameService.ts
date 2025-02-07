@@ -34,15 +34,16 @@ export class GameService {
 
     public addPlayer(player: Player): boolean {
         const room: Room = RoomService.getInstance().addPlayer(player);
-        //ServerService.getInstance().sendMessage(room.name,ServerService.messages.out.new_player,"new player");
         ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, "new player");
         const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         if (room.players.length == 1) {
+            const board = new BoardBuilder();
             const game: Game = {
                 id: "game" + genRanHex(128),
                 state: GameStates.WAITING,
                 room: room,
-                board: new BoardBuilder().getBoard()
+                board: board.getBoard(),
+                boarInstance : board
             }
             room.game = game;
             this.games.push(game);
@@ -50,12 +51,15 @@ export class GameService {
 
         if (room.occupied) {
             if (room.game) {
+                room.game.boarInstance.addPlayers(room.players.length);
                 room.game.state = GameStates.PLAYING;
                 if (ServerService.getInstance().isActive()) {
                     ServerService.getInstance().sendMessage(room.name, Messages.BOARD, room.game.board);
                 }
             }
             return true;
+        } else {
+            console.log("Aun no voy a mandar el tablero ♟️");
         }
 
         return false;
