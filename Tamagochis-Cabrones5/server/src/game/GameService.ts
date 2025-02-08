@@ -1,10 +1,14 @@
 import { Socket } from "socket.io";
 import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Room } from "../room/entities/Room";
+import { RoomConfig } from "../room/entities/Room";
 import { RoomService } from "../room/RoomService";
 import { Game, GameStates, Messages } from "./entities/Game";
 import { BoardBuilder } from "./BoardBuilder";
 import { ServerService } from "../server/ServerService"
+import { ConnectionStates } from "mongoose";
+import { checkPrimeSync } from "crypto";
+import { copyFileSync } from "fs";
 export class GameService {
     private games: Game[];
 
@@ -49,19 +53,45 @@ export class GameService {
             this.games.push(game);
         }
 
-        // if (room.occupied) {
+        room.game?.boarInstance.addPlayers(player);
+
+        if (room.occupied) {
             if (room.game) {
-                room.game.boarInstance.addPlayers(room.players.length);
                 room.game.state = GameStates.PLAYING;
                 if (ServerService.getInstance().isActive()) {
                     ServerService.getInstance().sendMessage(room.name, Messages.BOARD, room.game.board);
                 }
             }
             return true;
-        // } else {
-        //     console.log("Aun no voy a mandar el tablero ♟️");
-        // }
+        } else {
+            console.log("¡Quedan " + (RoomConfig.maxRoomPlayers - room.players.length) + " jugadores para empezar ♟️ !"); 
+        }
 
         return false;
+    }
+
+    public removePlayer(socket: Socket) {
+        var currentGame: Game | undefined;
+        this.games.forEach(element => {
+            currentGame = element;
+            // element.room.players.forEach(player => {
+            //     if (player.id.id == socket.id) {
+            //         console.log("He encontrado algo que te intersará: " + player.id.id);
+            //         return;
+            //     }
+            // });
+        });
+
+        var player = currentGame?.room.players.find(player => player.id.id == socket.id);
+
+        console.log(player?.x, player?.y);
+        
+        if (currentGame) {
+            currentGame.boarInstance.removePlayerFromBoard(player);
+        }
+        
+        RoomService.getInstance().removePlayer(socket.id);
+
+        ServerService.getInstance().sendMessage(currentGame?.room.name ?? null, Messages.BOARD, currentGame?.room.game?.board);
     }
 }

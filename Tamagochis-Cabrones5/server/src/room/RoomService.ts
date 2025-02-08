@@ -40,4 +40,14 @@ export class RoomService {
         if (room.players.length == RoomConfig.maxRoomPlayers) room.occupied = true;
         return room;  
     }
+
+    public removePlayer(playerId: String) {
+        this.rooms.forEach((room) => {
+            room.players = room.players.filter((player) => player.id.toString() != playerId);
+        });
+    }
+
+    public getRoomByPlayer(playerId: String) : Room | undefined {
+        return this.rooms.find((room) => room.players.find((player) => player.id.id == playerId));
+    }
 }

@@ -15,7 +15,6 @@ export const ConnectionHandler = {
         socket.on("connect", (data) => {
             socket.on("connectionStatus", (data) => {
                 ConnectionHandler.connected = true;
-                console.log(data);
                 onConnectedCallBack();
             });
             socket.on("message", (payload) => {

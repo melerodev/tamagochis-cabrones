@@ -2,6 +2,8 @@ import { DefaultEventsMap, Server, Socket } from 'socket.io';
 import http from 'http';
 import { GameService } from '../game/GameService';
 import { AnyTxtRecord } from 'dns';
+import { RoomConfig } from '../room/entities/Room';
+import { RoomService } from '../room/RoomService';
 
 export class ServerService {
     private io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null;
@@ -47,7 +49,7 @@ export class ServerService {
         this.active = true;
 
         this.io.on('connection', (socket) => {
-            // console.log('Un cliente se ha conectado:', socket.id);
+            console.log('Un cliente se ha conectado:', socket.id);
             socket.emit("connectionStatus", { status: true });
             GameService.getInstance().addPlayer(GameService.getInstance().buildPlayer(socket));
             
@@ -59,7 +61,15 @@ export class ServerService {
             })
 
             socket.on('disconnect', () => {
-                // console.log('Un cliente se ha desconectado:', socket.id);
+                console.log('Un cliente se ha desconectado:', socket.id);
+                const room = RoomService.getInstance().getRoomByPlayer(socket.id);
+                // if (room && (RoomConfig.maxRoomPlayers - room.players.length) > 1) {
+                //     GameService.getInstance().removePlayer(socket);
+                // } else {
+                //     console.log("Hubo un error al desconectar al jugador");
+                // }
+                GameService.getInstance().removePlayer(socket);
+
             });
         });
     }
