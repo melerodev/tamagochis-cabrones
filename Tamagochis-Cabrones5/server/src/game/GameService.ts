@@ -72,19 +72,12 @@ export class GameService {
 
     public removePlayer(socket: Socket) {
         var currentGame: Game | undefined;
+        
         this.games.forEach(element => {
             currentGame = element;
-            // element.room.players.forEach(player => {
-            //     if (player.id.id == socket.id) {
-            //         console.log("He encontrado algo que te intersará: " + player.id.id);
-            //         return;
-            //     }
-            // });
         });
 
         var player = currentGame?.room.players.find(player => player.id.id == socket.id);
-
-        console.log(player?.x, player?.y);
         
         if (currentGame) {
             currentGame.boarInstance.removePlayerFromBoard(player);

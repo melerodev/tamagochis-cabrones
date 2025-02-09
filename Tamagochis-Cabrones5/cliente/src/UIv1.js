@@ -40,4 +40,27 @@ UIv1.drawBoard = (board) => {
     }
 }
 
-UIv1.drawBoard();
+UIv1.deleteBoard = () => {
+    const base = document.getElementById(UIv1.uiElements.board);
+    console.log(base);
+
+    base.innerHTML = '';
+}
+
+UIv1.sendNotification = (message, error) => {
+    const notyf = new Notyf({
+        duration: 3000,
+        position: { x: "right", y: "botton" },
+        dismissible: true,
+    });
+    
+    var audio = new Audio('/cliente/assets/sounds/notification.mp3');
+    audio.volume = 0.2;
+    audio.play();
+
+    if (error) {
+        notyf.error(message);
+    } else {
+        notyf.success(message);
+    }
+}

@@ -4,5 +4,4 @@ export const Player = {
     status: 0,
     direction: 0,
     visibility: true,
-    
 }
