@@ -4,6 +4,7 @@ import { GameService } from '../game/GameService';
 import { AnyTxtRecord } from 'dns';
 import { RoomConfig } from '../room/entities/Room';
 import { RoomService } from '../room/RoomService';
+import { Messages } from '../game/entities/Game';
 
 export class ServerService {
     private io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> | null;
@@ -62,14 +63,13 @@ export class ServerService {
 
             socket.on('disconnect', () => {
                 console.log('Un cliente se ha desconectado:', socket.id);
-                const room = RoomService.getInstance().getRoomByPlayer(socket.id);
-                // if (room && (RoomConfig.maxRoomPlayers - room.players.length) > 1) {
-                //     GameService.getInstance().removePlayer(socket);
-                // } else {
-                //     console.log("Hubo un error al desconectar al jugador");
-                // }
-                GameService.getInstance().removePlayer(socket);
 
+                const room = RoomService.getInstance().getRoomByPlayer(socket.id);
+                if (room?.name) {
+                    this.sendMessage(room?.name, Messages.DISCONECTED, socket.id);
+                }
+
+                GameService.getInstance().removePlayer(socket);
             });
         });
     }
