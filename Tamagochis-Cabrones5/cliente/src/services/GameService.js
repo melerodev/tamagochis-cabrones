@@ -74,3 +74,7 @@ export class GameService {
         this.#ui.sendNotification("Un nuevo jugador se ha salido de la partida  🚪", true);
     }
 }
+
+document.addEventListener("keydown", function(event) {
+    console.log(event.key);
+});
