@@ -38,7 +38,12 @@ export class GameService {
 
     public addPlayer(player: Player): boolean {
         const room: Room = RoomService.getInstance().addPlayer(player);
-        ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, "new player");
+        
+        const playerData = {
+            playerName: "player" + room.players.length,
+            id: player.id.id
+        }
+        ServerService.getInstance().sendMessage(room.name, Messages.NEW_PLAYER, playerData);
         const genRanHex = (size: Number) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
         if (room.players.length == 1) {
             const board = new BoardBuilder();

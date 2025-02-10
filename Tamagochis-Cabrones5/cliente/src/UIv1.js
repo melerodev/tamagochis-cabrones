@@ -54,9 +54,9 @@ UIv1.sendNotification = (message, error) => {
         dismissible: true,
     });
     
-    var audio = new Audio('/cliente/assets/sounds/notification.mp3');
-    audio.volume = 0.2;
-    audio.play();
+    // var audio = new Audio('/cliente/assets/sounds/notification.mp3');
+    // audio.volume = 0.2;
+    // audio.play();
 
     if (error) {
         notyf.error(message);

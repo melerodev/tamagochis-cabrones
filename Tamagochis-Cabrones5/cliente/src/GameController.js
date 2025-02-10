@@ -23,4 +23,8 @@ export class GameController {
         if (this.#state === this.#states.RIGHT)
             this.#gameService.do(payload);
     }
+
+    get gameService  () {
+        return this.#gameService;
+    }
 }

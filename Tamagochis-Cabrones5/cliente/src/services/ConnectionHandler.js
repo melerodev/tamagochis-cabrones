@@ -7,7 +7,7 @@ export const ConnectionHandler = {
     controller: null,
     init: (url, controller, onConnectedCallBack, onDisconnectedCallBack) => {
         ConnectionHandler.controller = controller;
-        let { socket } = ConnectionHandler; 
+        let { socket } = ConnectionHandler;
         socket = io(url);
         socket.onAny((message, payload) => {
         });
@@ -17,9 +17,18 @@ export const ConnectionHandler = {
                 ConnectionHandler.connected = true;
                 onConnectedCallBack();
             });
+
             socket.on("message", (payload) => {
                 ConnectionHandler.controller.actionController(payload);
             })
+            
+            document.addEventListener("keydown", (event) => ConnectionHandler.controller.actionController(
+                {
+                    type: "MOVEMENT",
+                    content : {event: event, socket: socket}
+                }
+            ));    
+
             socket.on("disconnect", () => {
                 ConnectionHandler.connected = false;
                 onDisconnectedCallBack();

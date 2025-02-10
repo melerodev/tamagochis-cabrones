@@ -6,6 +6,14 @@ export class GameService {
         PLAYING : 1,
         ENDED : 2
     };
+
+    #keys = {
+        UP : "ArrowUp",
+        DOWN : "ArrowDown",
+        LEFT : "ArrowLeft",
+        RIGHT : "ArrowRight"
+    };
+
     #ui = null;
     #players = [];
     #board = null;
@@ -16,7 +24,8 @@ export class GameService {
     #actionsList = {
         "NEW_PLAYER" : this.do_newPlayer.bind(this),
         "BOARD" : this.do_newBoard.bind(this),
-        "DISCONECTED" : this.do_disconected.bind(this)
+        "DISCONECTED" : this.do_disconected.bind(this),
+        "MOVEMENT" : this.do_movement.bind(this)
     };
 
     constructor(ui){
@@ -57,24 +66,26 @@ export class GameService {
 
     async do_newPlayer (payload) {
         this.#players.push(payload);
-        this.#ui.sendNotification("Un nuevo jugador se ha unido a la partida 🎮", false);
+        this.#ui.sendNotification("El jugador " + payload.playerName + " se ha unido a la partida 🎮", false);
     };
 
     async do_newBoard(payload) {
         this.#state = this.#states.PLAYING;
         this.#board.build(payload);
         this.#ui.drawBoard(this.#board.map);
-        console.log(this.#board);
     }
 
     async do_disconected(payload) {
         this.#state = this.#states.WAITING;
+        this.#ui.sendNotification(`El jugador ${this.#players.find((player) => player.id == payload).playerName} se ha salido de la partida 🚪`, true);
         this.#players.splice(this.#players.findIndex((player) => player.id == payload)); // el método splice elimina un elemento de un array
+    }
 
-        this.#ui.sendNotification("Un nuevo jugador se ha salido de la partida  🚪", true);
+    async do_movement(payload) {
+        if (Object.values(this.#keys).includes(payload.event.key)) {
+            console.log(`El jugador ${this.#players.find((player) => player.id == payload.socket.id).playerName} ha pulsado la tecla ${payload.event.key}`);
+        } else {
+            console.log("La tecla pulsada no es válida");
+        }
     }
 }
-
-document.addEventListener("keydown", function(event) {
-    console.log(event.key);
-});
