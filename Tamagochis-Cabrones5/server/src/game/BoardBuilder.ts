@@ -1,4 +1,4 @@
-import { Player } from "../player/entities/Player";
+import { Directions, Player } from "../player/entities/Player";
 import { Board } from "./entities/Board";
 
 export enum Elements {
@@ -65,5 +65,72 @@ export class BoardBuilder {
         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y));
         
         console.log(`He eliminado un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
+    }
+
+    // public movePlayer(player: Player, direction: string) {
+    //     var newCoords = { x: player.x, y: player.y };
+    //     switch (direction) {
+    //         case "UP":
+    //             newCoords.x--;
+    //             break;
+    //         case "DOWN":
+    //             newCoords.x++;
+    //             break;
+    //         case "LEFT":
+    //             newCoords.y--;
+    //             break;
+    //         case "RIGHT":
+    //             newCoords.y++;
+    //             break;
+    //         default:
+    //             break;
+    //     }
+
+    //     if (this.board.elements.filter(element => element.x === newCoords.x && element.y === newCoords.y).length === 0) {
+    //         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y));
+    //         player.x = newCoords.x;
+    //         player.y = newCoords.y;
+    //         this.board.elements.push({x : player.x, y : player.y, type : Elements.PLAYER});
+    //         console.log(`He movido un jugador ${player.id.id} a la posición (${player.x}, ${player.y})`);
+    //     }
+    // }
+
+    public movePlayer(player: Player, direction: Directions) {
+        const playerCoords = { x: Number(player.x), y: Number(player.y) };
+        var newCoords = { x: Number(player.x), y: Number(player.y) };
+
+        if (playerCoords.x < 0 || playerCoords.y < 0 || playerCoords.x >= this.board.size || playerCoords.y >= this.board.size) {
+            console.log(`El jugador ${player.id.id} está fuera de los límites del tablero`);
+            return;
+        } else {
+            switch (direction) {
+                case "UP":
+                    newCoords.x--;
+                    break;
+                case "DOWN":
+                    newCoords.x++;
+                    break;
+                case "LEFT":
+                    newCoords.y--;
+                    break;
+                case "RIGHT":
+                    newCoords.y++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        player.x = newCoords.x;
+        player.y = newCoords.y;
+
+        if (this.board.elements.filter(element => element.x === newCoords.x && element.y === newCoords.y).length === 0) {
+            this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y));
+            player.x = newCoords.x;
+            player.y = newCoords.y;
+            this.board.elements.push({x : newCoords.x, y : newCoords.y, type : Elements.PLAYER});
+            console.log(`He movido un jugador ${player.id.id} a la posición (${player.x}, ${player.y})`);
+        }
     }
 }

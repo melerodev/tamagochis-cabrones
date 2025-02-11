@@ -1,11 +1,11 @@
 import { Socket } from "socket.io";
 
 export enum Directions {
-    Up = "up", 
-    Down = "down",
-    Left = "left",
-    Right = "right",
-    Idle = "idle"
+    Up = "UP", 
+    Down = "DOWN",
+    Left = "LEFT",
+    Right = "RIGHT",
+    Idle = "IDLE"
 }
 
 export enum PlayerStates {
@@ -14,6 +14,7 @@ export enum PlayerStates {
 
 export interface Player {
     id: Socket;
+    name: String;
     x: Number;
     y: Number;
     state: PlayerStates;

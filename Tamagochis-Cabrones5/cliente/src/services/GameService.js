@@ -7,12 +7,12 @@ export class GameService {
         ENDED : 2
     };
 
-    #keys = {
-        UP : "ArrowUp",
-        DOWN : "ArrowDown",
-        LEFT : "ArrowLeft",
-        RIGHT : "ArrowRight"
-    };
+    // #keys = {
+    //     UP : "ArrowUp",
+    //     DOWN : "ArrowDown",
+    //     LEFT : "ArrowLeft",
+    //     RIGHT : "ArrowRight"
+    // };
 
     #ui = null;
     #players = [];
@@ -25,7 +25,7 @@ export class GameService {
         "NEW_PLAYER" : this.do_newPlayer.bind(this),
         "BOARD" : this.do_newBoard.bind(this),
         "DISCONECTED" : this.do_disconected.bind(this),
-        "MOVEMENT" : this.do_movement.bind(this)
+        // "MOVEMENT" : this.do_movement.bind(this)
     };
 
     constructor(ui){
@@ -70,6 +70,7 @@ export class GameService {
     };
 
     async do_newBoard(payload) {
+        console.log(payload);
         this.#state = this.#states.PLAYING;
         this.#board.build(payload);
         this.#ui.drawBoard(this.#board.map);
@@ -81,11 +82,11 @@ export class GameService {
         this.#players.splice(this.#players.findIndex((player) => player.id == payload)); // el método splice elimina un elemento de un array
     }
 
-    async do_movement(payload) {
-        if (Object.values(this.#keys).includes(payload.event.key)) {
-            console.log(`El jugador ${this.#players.find((player) => player.id == payload.socket.id).playerName} ha pulsado la tecla ${payload.event.key}`);
-        } else {
-            console.log("La tecla pulsada no es válida");
-        }
-    }
+    // async do_movement(payload) {
+    //     if (Object.values(this.#keys).includes(payload.event.key)) {
+    //         console.log(`El jugador ${this.#players.find((player) => player.id == payload.socket.id).playerName} ha pulsado la tecla ${payload.event.key}`);
+    //     } else {
+    //         console.log("La tecla pulsada no es válida");
+    //     }
+    // }
 }

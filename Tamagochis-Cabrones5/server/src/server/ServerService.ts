@@ -17,12 +17,8 @@ export class ServerService {
 
     public inputMessage = [
             {
-                type: "HELLO",
-                do: this.doHello
-            },
-            {
-                type: "BYE",
-                do: this.doBye
+                type: "MOVEMENT",
+                do: this.doMovement
             }
         ];
 
@@ -96,13 +92,17 @@ export class ServerService {
         return this.active;
     }
 
-    private doHello(data: String) {
-        console.log("Hola");
-        console.log(data);
-    }
+    // private doHello(data: String) {
+    //     console.log("Hola");
+    //     console.log(data);
+    // }
 
-    private doBye(data: String) {
-        console.log("Adios");
-        console.log(data);
+    // private doBye(data: String) {
+    //     console.log("Adios");
+    //     console.log(data);
+    // }
+    
+    private doMovement(data: any) {
+        GameService.getInstance().movePlayer(data.data.socketId, data.data.key);
     }
 }
