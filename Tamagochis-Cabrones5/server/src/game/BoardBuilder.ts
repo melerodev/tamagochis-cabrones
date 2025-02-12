@@ -54,7 +54,7 @@ export class BoardBuilder {
         player.x = corners[coords].x;
         player.y = corners[coords].y;
 
-        this.board.elements.push({x : corners[coords].y, y : corners[coords].y, type : Elements.PLAYER});
+        this.board.elements.push({x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER});
 
         console.log(`He añadido un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
     }
@@ -67,70 +67,46 @@ export class BoardBuilder {
         console.log(`He eliminado un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
     }
 
-    // public movePlayer(player: Player, direction: string) {
-    //     var newCoords = { x: player.x, y: player.y };
-    //     switch (direction) {
-    //         case "UP":
-    //             newCoords.x--;
-    //             break;
-    //         case "DOWN":
-    //             newCoords.x++;
-    //             break;
-    //         case "LEFT":
-    //             newCoords.y--;
-    //             break;
-    //         case "RIGHT":
-    //             newCoords.y++;
-    //             break;
-    //         default:
-    //             break;
-    //     }
-
-    //     if (this.board.elements.filter(element => element.x === newCoords.x && element.y === newCoords.y).length === 0) {
-    //         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y));
-    //         player.x = newCoords.x;
-    //         player.y = newCoords.y;
-    //         this.board.elements.push({x : player.x, y : player.y, type : Elements.PLAYER});
-    //         console.log(`He movido un jugador ${player.id.id} a la posición (${player.x}, ${player.y})`);
-    //     }
-    // }
-
     public movePlayer(player: Player, direction: Directions) {
-        const playerCoords = { x: Number(player.x), y: Number(player.y) };
-        var newCoords = { x: Number(player.x), y: Number(player.y) };
-
-        if (playerCoords.x < 0 || playerCoords.y < 0 || playerCoords.x >= this.board.size || playerCoords.y >= this.board.size) {
-            console.log(`El jugador ${player.id.id} está fuera de los límites del tablero`);
-            return;
-        } else {
-            switch (direction) {
-                case "UP":
-                    newCoords.x--;
-                    break;
-                case "DOWN":
-                    newCoords.x++;
-                    break;
-                case "LEFT":
-                    newCoords.y--;
-                    break;
-                case "RIGHT":
-                    newCoords.y++;
-                    break;
-                default:
-                    break;
-            }
+        const newCoords = { x: Number(player.x), y: Number(player.y) };
+        console.log(`Coordenas del jugador antes de modificarlas (${player.x}, ${player.y})`);
+    
+        switch (direction) {
+            case "UP":
+                newCoords.x--;
+                break;
+            case "DOWN":
+                newCoords.x++;
+                break;
+            case "LEFT":
+                newCoords.y--;
+                break;
+            case "RIGHT":
+                newCoords.y++;
+                break;
+            default:
+                console.warn("Dirección no válida");
+                return;
         }
-
-
+    
+        if (newCoords.x < 0 || newCoords.y < 0 || newCoords.x >= this.board.size || newCoords.y >= this.board.size) {
+            console.log(`El jugador ${player.name} quiere salir fuera de los límites del tablero.`);
+            return;
+        }
+    
+        const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
+        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH ||elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
+            // console.log(`El jugador ${player.id.id} no puede moverse a (${newCoords.x}, ${newCoords.y}) porque hay un elemento ahí}.`);
+            return;
+        }
+    
+        this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y)); // eliminar la posición anterior del jugador
+    
         player.x = newCoords.x;
         player.y = newCoords.y;
-
-        if (this.board.elements.filter(element => element.x === newCoords.x && element.y === newCoords.y).length === 0) {
-            this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y));
-            player.x = newCoords.x;
-            player.y = newCoords.y;
-            this.board.elements.push({x : newCoords.x, y : newCoords.y, type : Elements.PLAYER});
-            console.log(`He movido un jugador ${player.id.id} a la posición (${player.x}, ${player.y})`);
-        }
+        
+    
+        this.board.elements.push({ x: newCoords.x, y: newCoords.y, type: Elements.PLAYER });
     }
+    
 }
