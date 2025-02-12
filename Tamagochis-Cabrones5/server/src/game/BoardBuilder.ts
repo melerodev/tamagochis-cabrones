@@ -1,4 +1,4 @@
-import { Directions, Player } from "../player/entities/Player";
+import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Board } from "./entities/Board";
 
 export enum Elements {
@@ -30,7 +30,7 @@ export class BoardBuilder {
         for(let i = 0; i < this.board.size; i++)
             for(let j = 0; j < this.board.size; j++)
                 if(map[i][j] != Elements.EMPTY) {
-                    this.board.elements.push({x : i, y : j, type : Elements.BUSH});
+                    this.board.elements.push({x : i, y : j, type : Elements.BUSH, state: null, visibility: null});
                 }
     }
 
@@ -54,7 +54,7 @@ export class BoardBuilder {
         player.x = corners[coords].x;
         player.y = corners[coords].y;
 
-        this.board.elements.push({x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER});
+        this.board.elements.push({x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility)});
 
         console.log(`He añadido un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
     }
@@ -95,8 +95,11 @@ export class BoardBuilder {
         }
     
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
-        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH ||elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
-            // console.log(`El jugador ${player.id.id} no puede moverse a (${newCoords.x}, ${newCoords.y}) porque hay un elemento ahí}.`);
+        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
+            player.visibility = false;
+        }
+
+        if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
             return;
         }
     
@@ -104,9 +107,8 @@ export class BoardBuilder {
     
         player.x = newCoords.x;
         player.y = newCoords.y;
-        
     
-        this.board.elements.push({ x: newCoords.x, y: newCoords.y, type: Elements.PLAYER });
+        this.board.elements.push({ x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
     }
     
 }

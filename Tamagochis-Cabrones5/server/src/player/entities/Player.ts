@@ -9,7 +9,11 @@ export enum Directions {
 }
 
 export enum PlayerStates {
-    No_Connected, Idle, Moving, Hidden, Dead
+    No_Connected = "NO_CONNECTED",
+    Idle = "IDLE",
+    Moving = "MOVING",
+    Hidden = "HIDDEN",
+    Dead = "DEAD"
 }
 
 export interface Player {
