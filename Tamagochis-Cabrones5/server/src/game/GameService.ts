@@ -124,7 +124,6 @@ export class GameService {
         var player = currentGame?.room.players.find(player => player.id.id == socket);
 
         if (player && direction) {
-            player.direction = direction;
             currentGame?.boarInstance.movePlayer(player, direction);
         }
         
