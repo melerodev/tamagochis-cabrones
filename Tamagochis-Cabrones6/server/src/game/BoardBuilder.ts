@@ -1,7 +1,6 @@
-import { BlobOptions } from "buffer";
-import { Directions, Player, PlayerStates } from "../player/entities/Player";
+import { Directions, Player } from "../player/entities/Player";
 import { Board } from "./entities/Board";
-import { Keys, MoveResult } from "./entities/Game";
+import { Keys, MoveResult, RotateResult } from "./entities/Game";
 
 export enum Elements {
     BUSH = 5,
@@ -32,7 +31,7 @@ export class BoardBuilder {
         for(let i = 0; i < this.board.size; i++)
             for(let j = 0; j < this.board.size; j++)
                 if(map[i][j] != Elements.EMPTY) {
-                    this.board.elements.push({x : i, y : j, type : Elements.BUSH, state: null, visibility: null});
+                    this.board.elements.push({id: null, x : i, y : j, type : Elements.BUSH, state: null, visibility: null});
                 }
     }
 
@@ -56,7 +55,8 @@ export class BoardBuilder {
         player.x = corners[coords].x;
         player.y = corners[coords].y;
 
-        this.board.elements.push({x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility)});
+
+        this.board.elements.push({id: player.id.id, x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility)});
 
         console.log(`He añadido un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
     }
@@ -100,9 +100,9 @@ export class BoardBuilder {
     
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
 
-        // if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
-        //     player.visibility = false;
-        // }
+        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
+            player.visibility = false;
+        }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
             result = null;
@@ -112,18 +112,32 @@ export class BoardBuilder {
 
         player.x = newCoords.x;
         player.y = newCoords.y;
-    
-        this.board.elements.push({ x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
-        result = { x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state };
+
+        this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
+        result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state };
 
         return result;
     }
 
+    public rotatePlayer(player: Player) : RotateResult {
+        switch(player.direction) {
+            case Directions.Up:
+                player.direction = Directions.Right;
+                break;
+            case Directions.Right:
+                player.direction = Directions.Down;
+                break;
+            case Directions.Down:
+                player.direction = Directions.Left;
+                break;
+            case Directions.Left:
+                player.direction = Directions.Up;
+                break;
+            default:
+                console.log("Dirección no válida");
+        }
 
-    public rotatePlayer(player: Player) : Boolean {
-        var result = true;
-
-        return result;
+        return { id: player.id.id, direction: player.direction };
     }
 
     public firePlayer(player: Player) : Boolean {

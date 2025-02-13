@@ -82,7 +82,7 @@ export class GameService {
     }
 
     async do_rotate(payload) {
-        console.log("Rotando");
+        this.#ui.rotatePlayer(payload);
     }
 
     async do_shot(payload) {

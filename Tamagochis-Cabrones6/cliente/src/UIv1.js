@@ -2,6 +2,8 @@ import { UI_BUILDER } from "./Ui.js";
 
 export const UIv1 = UI_BUILDER.init();
 
+let rotationDegrees = 0;
+
 UIv1.initUI = () => {
     const base = document.getElementById(UIv1.uiElements.board);
     base.classList.add("board");
@@ -40,6 +42,7 @@ UIv1.drawBoard = (board) => {
                 iElement.style.color = "green";
             } else if (element.type == 1) {
                 iElement.className = "fa-solid fa-user";
+                iElement.setAttribute("socket-id", element.id);
             } else {
                 iElement.className = "";
             }
@@ -79,4 +82,13 @@ UIv1.sendNotification = (message, error) => {
     } else {
         notyf.success(message);
     }
+}
+
+UIv1.rotatePlayer = (data) => {
+    if (rotationDegrees == 360) {
+        rotationDegrees = 0;
+    } 
+    rotationDegrees += 90;
+    const player = document.querySelector(`[socket-id="${data.id}"]`);
+    player.style.transform = `rotate(${rotationDegrees + 90}deg)`;
 }

@@ -26,11 +26,17 @@ export enum Keys {
 }
 
 export interface MoveResult {
+    id : String;
     x: number;
     y: number;
     visibility: boolean;
     direction: Directions;
     state: PlayerStates;
+}
+
+export interface RotateResult {
+    id : String;
+    direction: Directions;
 }
 
 export interface Game {

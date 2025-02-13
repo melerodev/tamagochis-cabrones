@@ -2,6 +2,7 @@ import { Player, PlayerStates } from "../../player/entities/Player";
 import { Elements } from "../BoardBuilder";
 
 export interface Element {
+    id : String | null;
     x : number;
     y : number; 
     type: Elements;
