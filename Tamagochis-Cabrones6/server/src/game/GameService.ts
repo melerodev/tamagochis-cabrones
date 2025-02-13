@@ -98,38 +98,6 @@ export class GameService {
         ServerService.getInstance().sendMessage(currentGame?.room.name ?? null, Messages.BOARD, currentGame?.room.game?.board);
     }
 
-    // public movePlayer(socket : String, key: String) {
-    //     var currentGame: Game | undefined;
-    //     var direction = null;
-        
-  //   //     this.games.forEach(element => {
-    //         currentGame = element;
-    //     });
-
-    //     switch (key) {
-    //         case "ArrowUp":
-    //             direction = Directions.Up;
-    //             break;
-    //         case "ArrowDown":
-    //             direction = Directions.Down;
-    //             break;
-    //         case "ArrowLeft":
-    //             direction = Directions.Left;
-    //             break;
-    //         case "ArrowRight":
-    //             direction = Directions.Right;
-    //             break;
-    //     }
-
-    //     var player = currentGame?.room.players.find(player => player.id.id == socket);
-
-    //     if (player && direction) {
-    //         currentGame?.boarInstance.movePlayer(player, direction);
-    //     }
-        
-        // ServerService.getInstance().sendMessage(currentGame?.room.name ?? null, Messages.BOARD, currentGame?.room.game?.board);
-    // }
-
     public doAction(socket : String, key: String) {
         var currentGame: Game | undefined;
         var result = null;
@@ -141,32 +109,34 @@ export class GameService {
 
         var player = currentGame?.room.players.find(player => player.id.id == socket);
         
-        switch (key) {
-            case Keys.ArrowUp:
-            case Keys.ArrowDown:
-            case Keys.ArrowLeft:
-            case Keys.ArrowRight:
-                if (player) {
+        if (player) {
+            switch (key) {
+                case Keys.ArrowUp:
+                case Keys.ArrowDown:
+                case Keys.ArrowLeft:
+                case Keys.ArrowRight:
+                    console.log("Mover jugador");
                     result = currentGame?.boarInstance.movePlayer(player, key as Keys);
                     action = Messages.MOVEMENT;
-                }
-                break;
-            case Keys.R:
-                console.log("Rotar");
-                break;
-            case Keys.Space:
-                console.log("Matar");
-                break;
-            default:
-                console.log("Acción no válida");
+                    break;
+                case Keys.R:
+                    console.log("Rotar jugador");
+                    result = currentGame?.boarInstance.rotatePlayer(player);
+                    action = Messages.ROTATE;
+                    console.log(result);
+                    break;
+                case Keys.Space:
+                    console.log("Disparar jugador");
+                    result = currentGame?.boarInstance.firePlayer(player);
+                    action = Messages.SHOT;
+                    break;
+                default:
+                    console.log("Acción no válida");
+            }
         }
 
-        // enviar la información al cliente
-        // ServerService.getInstance().sendMessage(currentGame?.room.name ?? null, Messages.BOARD, currentGame?.room.game?.board);
-        
         if (action && result) {
             ServerService.getInstance().sendMessage(currentGame?.room.name ?? null, action, result);
         }
     }
-
 }

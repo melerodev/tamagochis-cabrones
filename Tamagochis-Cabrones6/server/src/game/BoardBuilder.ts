@@ -121,7 +121,13 @@ export class BoardBuilder {
 
 
     public rotatePlayer(player: Player) : Boolean {
-        var result = false;
+        var result = true;
+
+        return result;
+    }
+
+    public firePlayer(player: Player) : Boolean {
+        var result = true;
 
         return result;
     }

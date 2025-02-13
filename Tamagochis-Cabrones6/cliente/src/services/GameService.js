@@ -19,6 +19,7 @@ export class GameService {
         "BOARD" : this.do_newBoard.bind(this),
         "DISCONECTED" : this.do_disconected.bind(this),
         "MOVEMENT" : this.do_movement.bind(this),
+        "ROTATE" : this.do_rotate.bind(this),
         "SHOT" : this.do_shot.bind(this),
     };
 
@@ -80,7 +81,11 @@ export class GameService {
         console.log(payload);
     }
 
+    async do_rotate(payload) {
+        console.log("Rotando");
+    }
+
     async do_shot(payload) {
-        console.log(payload);
+        console.log("Disparando");
     }
 }

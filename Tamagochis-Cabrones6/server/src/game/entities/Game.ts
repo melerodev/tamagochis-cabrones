@@ -12,6 +12,7 @@ export enum Messages {
     NEW_PLAYER = "NEW_PLAYER",
     DISCONECTED = "DISCONECTED",
     MOVEMENT = "MOVEMENT",
+    ROTATE = "ROTATE",
     SHOT = "SHOT",
 }
 
