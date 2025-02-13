@@ -10,13 +10,29 @@ UIv1.initUI = () => {
 UIv1.drawBoard = (board) => {
     if (board !== undefined) {
         const base = document.getElementById(UIv1.uiElements.board);
+
+        let coords = {x: 0, y: 0};
+
         base.innerHTML = '';
+
         base.style.gridTemplateColumns = `repeat(${board.length}, 100px)`;
         base.style.gridTemplateRows = `repeat(${board.length}, 100px)`;
+
         board.forEach(element => element.forEach((element) => {
             const tile = document.createElement("div");
             const iElement = document.createElement("i");
             tile.classList.add("tile");
+
+            tile.setAttribute("data-x", coords.x);
+            tile.setAttribute("data-y", coords.y);
+
+            coords.y++;
+
+            if (coords.y == board.length) {
+                coords.x++;
+                coords.y = 0;
+            }
+
             base.appendChild(tile);
 
             if (element.type == 5) {

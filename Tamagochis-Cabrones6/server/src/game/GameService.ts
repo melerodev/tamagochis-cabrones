@@ -123,7 +123,6 @@ export class GameService {
                     console.log("Rotar jugador");
                     result = currentGame?.boarInstance.rotatePlayer(player);
                     action = Messages.ROTATE;
-                    console.log(result);
                     break;
                 case Keys.Space:
                     console.log("Disparar jugador");
