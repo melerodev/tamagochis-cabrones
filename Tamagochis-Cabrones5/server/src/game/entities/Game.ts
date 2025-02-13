@@ -12,6 +12,15 @@ export enum Messages {
     DISCONECTED = "DISCONECTED"
 }
 
+export enum Keys {
+    ArrowUp = "ArrowUp",
+    ArrowDown = "ArrowDown",
+    ArrowLeft = "ArrowLeft",
+    ArrowRight = "ArrowRight",
+    R = "R", // Rotar
+    Space = " " // Matar
+}
+
 export interface Game {
     id : String,
     state: GameStates,

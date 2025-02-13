@@ -36,6 +36,9 @@ export const ConnectionHandler = {
         })
 
         document.addEventListener("keydown", (event) => {
+            if (event.key === " ") {
+                console.log("Sending message");
+            }
             if (Object.values(keys).includes(event.key)) {
                 socket.emit("message", { type: "MOVEMENT", data: { key: event.key, socketId: socket.id }});
             }

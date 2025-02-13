@@ -85,7 +85,7 @@ export class BoardBuilder {
                 newCoords.y++;
                 break;
             default:
-                console.warn("Dirección no válida");
+                console.log("Dirección no válida");
                 return;
         }
     
@@ -97,7 +97,6 @@ export class BoardBuilder {
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
         if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
             player.visibility = false;
-            return;
         }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
