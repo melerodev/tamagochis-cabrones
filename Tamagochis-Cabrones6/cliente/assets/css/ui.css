@@ -1,0 +1,15 @@
+.board {
+    display: grid;
+    gap: 5px; 
+}
+
+.tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dotted #000000;
+}
+
+i {
+    font-size: 3em;
+}
