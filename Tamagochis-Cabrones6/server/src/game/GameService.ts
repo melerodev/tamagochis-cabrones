@@ -115,17 +115,14 @@ export class GameService {
                 case Keys.ArrowDown:
                 case Keys.ArrowLeft:
                 case Keys.ArrowRight:
-                    console.log("Mover jugador");
                     result = currentGame?.boarInstance.movePlayer(player, key as Keys);
                     action = Messages.MOVEMENT;
                     break;
                 case Keys.R:
-                    console.log("Rotar jugador");
                     result = currentGame?.boarInstance.rotatePlayer(player);
                     action = Messages.ROTATE;
                     break;
                 case Keys.Space:
-                    console.log("Disparar jugador");
                     result = currentGame?.boarInstance.firePlayer(player);
                     action = Messages.SHOT;
                     break;

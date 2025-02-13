@@ -41,7 +41,7 @@ UIv1.drawBoard = (board) => {
                 iElement.className = "fa-solid fa-cloud";
                 iElement.style.color = "green";
             } else if (element.type == 1) {
-                iElement.className = "fa-solid fa-user";
+                iElement.className = "fa-solid fa-person";
                 iElement.setAttribute("socket-id", element.id);
             } else {
                 iElement.className = "";
@@ -90,5 +90,5 @@ UIv1.rotatePlayer = (data) => {
     } 
     rotationDegrees += 90;
     const player = document.querySelector(`[socket-id="${data.id}"]`);
-    player.style.transform = `rotate(${rotationDegrees + 90}deg)`;
+    player.style.transform = `rotate(${rotationDegrees}deg)`;
 }
