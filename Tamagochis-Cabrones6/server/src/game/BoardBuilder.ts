@@ -70,7 +70,7 @@ export class BoardBuilder {
     }
 
     public movePlayer(player: Player, key: Keys) : MoveResult | null {
-        var result : MoveResult = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Idle };
+        var result : MoveResult | null = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Idle };
         var allowed : boolean = true;
 
         const newCoords = { x: Number(player.x), y: Number(player.y) };
@@ -90,21 +90,24 @@ export class BoardBuilder {
             default:
                 console.log("Dirección no válida");
                 allowed = false;
+                result = null;
         }
     
         if (newCoords.x < 0 || newCoords.y < 0 || newCoords.x >= this.board.size || newCoords.y >= this.board.size) {
             console.log(`El jugador ${player.name} quiere salir fuera de los límites del tablero.`);
             allowed = false;
+            result = null;
         }
     
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
 
-        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
-            player.visibility = false;
-        }
+        // if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
+        //     player.visibility = false;
+        // }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
             allowed = false;
+            result = null;
         }
     
         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y)); // eliminar la posición anterior del jugador
