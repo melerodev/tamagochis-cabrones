@@ -97,6 +97,7 @@ export class BoardBuilder {
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
         if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
             player.visibility = false;
+            return;
         }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {

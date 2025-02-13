@@ -50,7 +50,7 @@ UIv1.deleteBoard = () => {
 UIv1.sendNotification = (message, error) => {
     const notyf = new Notyf({
         duration: 3000,
-        position: { x: "right", y: "botton" },
+        position: { x: "right", y: "top" },
         dismissible: true,
     });
     
