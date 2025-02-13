@@ -1,4 +1,4 @@
-import { Directions, Player } from "../player/entities/Player";
+import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Board } from "./entities/Board";
 import { Keys, MoveResult, RotateResult } from "./entities/Game";
 
@@ -58,7 +58,7 @@ export class BoardBuilder {
 
         this.board.elements.push({id: player.id.id, x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility)});
 
-        console.log(`He añadido un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
+        console.log(`He añadido un jugador ${player.name} en la posición (${player.x}, ${player.y})`);
     }
 
     public removePlayerFromBoard(player: Player | undefined) {
@@ -70,11 +70,10 @@ export class BoardBuilder {
     }
 
     public movePlayer(player: Player, key: Keys) : MoveResult | null {
-        var result = null;
-        // {x: null, y: null, visibility: null, direction: null, state: null}
-        const newCoords = { x: Number(player.x), y: Number(player.y) };
-        console.log(`Coordenas del jugador antes de modificarlas (${player.x}, ${player.y})`);
+        var result : MoveResult = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Idle };
+        var allowed : boolean = true;
 
+        const newCoords = { x: Number(player.x), y: Number(player.y) };
         switch (key) {
             case Keys.ArrowUp:
                 newCoords.x--;
@@ -90,12 +89,12 @@ export class BoardBuilder {
                 break;
             default:
                 console.log("Dirección no válida");
-                result = null;
+                allowed = false;
         }
     
         if (newCoords.x < 0 || newCoords.y < 0 || newCoords.x >= this.board.size || newCoords.y >= this.board.size) {
             console.log(`El jugador ${player.name} quiere salir fuera de los límites del tablero.`);
-            result = null;
+            allowed = false;
         }
     
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
@@ -105,16 +104,19 @@ export class BoardBuilder {
         }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
-            result = null;
+            allowed = false;
         }
     
         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y)); // eliminar la posición anterior del jugador
 
-        player.x = newCoords.x;
-        player.y = newCoords.y;
+        if (allowed) {
+            player.x = newCoords.x;
+            player.y = newCoords.y;
 
-        this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
-        result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state };
+            this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
+            result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state };
+        }
+        console.log(`He movido al jugador ${player.name} a la posición (${player.x}, ${player.y})`);
 
         return result;
     }

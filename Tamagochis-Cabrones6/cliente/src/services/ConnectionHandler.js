@@ -38,10 +38,13 @@ export const ConnectionHandler = {
         })
 
         document.addEventListener("keydown", (event) => {
-            if (Object.values(keys).includes(event.key)) {
-
-                socket.emit("message", { type: "ACTION", data: { key: event.key, socketId: socket.id }});
-            }
+            // por un timeout evitar que el servidor se sature con mensajes de teclado
+            setTimeout(() => {
+                if (Object.values(keys).includes(event.key)) {
+    
+                    socket.emit("message", { type: "ACTION", data: { key: event.key, socketId: socket.id }});
+                }
+            }, 200);
         });
     }
 }
