@@ -84,6 +84,12 @@ UIv1.sendNotification = (message, error) => {
     }
 }
 
+
+UIv1.movePlayer = (data) => {
+    console.log(data);
+    console.log(document.querySelector(`[socket-id="${data.id}"]`));
+}
+
 UIv1.rotatePlayer = (data) => {
     if (rotationDegrees == 360) {
         rotationDegrees = 0;
@@ -91,4 +97,8 @@ UIv1.rotatePlayer = (data) => {
     rotationDegrees += 90;
     const player = document.querySelector(`[socket-id="${data.id}"]`);
     player.style.transform = `rotate(${rotationDegrees}deg)`;
+}
+
+UIv1.firePlayer = (data) => {
+    console.log(data);
 }

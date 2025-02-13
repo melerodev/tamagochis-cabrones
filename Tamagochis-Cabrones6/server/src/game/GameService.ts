@@ -6,10 +6,7 @@ import { RoomService } from "../room/RoomService";
 import { Game, GameStates, Keys, Messages } from "./entities/Game";
 import { BoardBuilder } from "./BoardBuilder";
 import { ServerService } from "../server/ServerService"
-import { ConnectionStates } from "mongoose";
-import { checkPrimeSync } from "crypto";
-import { copyFileSync } from "fs";
-import { dir } from "console";
+
 export class GameService {
     private games: Game[];
 
