@@ -88,8 +88,7 @@ UIv1.sendNotification = (message, error) => {
 UIv1.movePlayer = (data) => {
     console.log(data);
     let iElement = document.createElement("i");
-    iElement.className = "fa-solid fa-person";
-    iElement.style.color = "black";
+    iElement.className = "fa-solid fa-person black";
     iElement.setAttribute("socket-id", data.id);
     document.querySelector(`[socket-id="${data.id}"]`).remove();
     document.querySelector(`[data-x="${data.x}"][data-y="${data.y}"]`).appendChild(iElement);
