@@ -61,7 +61,7 @@ export class GameService {
 
     async do_newPlayer (payload) {
         this.#players.push(payload);
-        this.#ui.sendNotification("El jugador " + payload.playerName + " se ha unido a la partida 🎮", false);
+        this.#ui.sendNotification({message: "El jugador " + payload.playerName + " se ha unido a la partida 🎮", duration: 3000, position: {x: "right", y: "top"}, dismissible: true, error: false});
     };
 
     async do_newBoard(payload) {
@@ -72,7 +72,7 @@ export class GameService {
 
     async do_disconected(payload) {
         this.#state = this.#states.WAITING;
-        this.#ui.sendNotification(`El jugador ${this.#players.find((player) => player.id == payload).playerName} se ha salido de la partida 🚪`, true);
+        this.#ui.sendNotification({message: `El jugador ${this.#players.find((player) => player.id == payload).playerName} se ha salido de la partida 🚪`, duration: 3000, position: {x: "right", y: "top"}, dismissible: true, error: true});
         this.#players.splice(this.#players.findIndex((player) => player.id == payload)); // el método splice elimina un elemento de un array
     }
 

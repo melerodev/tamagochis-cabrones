@@ -69,22 +69,27 @@ UIv1.deleteBoard = () => {
     base.innerHTML = '';
 }
 
-UIv1.sendNotification = (message, error) => {
+UIv1.sendNotification = (params) => {
     const notyf = new Notyf({
-        duration: 3000,
-        position: { x: "right", y: "top" },
-        dismissible: true,
+        duration: params.duration || 3000,
+        position: {x: params.position.x, y: params.position.y} || { x: "right", y: "top" },
+        dismissible: params.dismissible || true,
     });
     
-    // var audio = new Audio('/cliente/assets/sounds/notification.mp3');
-    // audio.volume = 0.2;
-    // audio.play();
+    var audio = new Audio('/cliente/assets/sounds/notification.mp3');
+    audio.volume = 0.2;
+    audio.play();
 
-    if (error) {
-        notyf.error(message);
+    if (params.error) {
+        notyf.error(params.message);
     } else {
-        notyf.success(message);
+        notyf.success(params.message);
     }
+
+    setTimeout(() => {
+        document.querySelector(".notyf").remove();
+        document.querySelector(".notyf-announcer").remove();
+    }, 3000);
 }
 
 

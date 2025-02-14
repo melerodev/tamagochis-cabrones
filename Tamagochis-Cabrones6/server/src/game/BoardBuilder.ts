@@ -123,11 +123,9 @@ export class BoardBuilder {
             player.y = newCoords.y;
 
             if (player.visibility == false && map[lastPlayerCoords.x][lastPlayerCoords.y] == Elements.BUSH) {
-                console.log("El jugador ha estado un arbusto");
+                console.log(`El jugador ${player.name} ha salido de un arbusto.`);
                 player.visibility = true;
                 this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, state: null, visibility: null});
-            } else {
-                console.log("Algo no estás haciendo bien Alejandro");
             }
 
             this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
