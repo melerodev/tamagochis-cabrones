@@ -37,14 +37,22 @@ export const ConnectionHandler = {
             });
         })
 
+        let isAllowKey = false;
         document.addEventListener("keydown", (event) => {
-            // por un timeout evitar que el servidor se sature con mensajes de teclado
-            setTimeout(() => {
-                if (Object.values(keys).includes(event.key)) {
-    
-                    socket.emit("message", { type: "ACTION", data: { key: event.key, socketId: socket.id }});
+            if (Object.values(keys).includes(event.key)) {
+                if (!isAllowKey) {
+                    isAllowKey = true;
+                } else {
+                    return;
                 }
-            }, 200);
+
+                console.log(event.key);
+                socket.emit("message", { type: "ACTION", data: { key: event.key, socketId: socket.id }});
+            }
+        });
+
+        document.addEventListener("keyup", (event) => {
+            isAllowKey = false;
         });
     }
 }
