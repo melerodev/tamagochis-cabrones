@@ -101,9 +101,14 @@ export class BoardBuilder {
     
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
 
-        // if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
-        //     player.visibility = false;
-        // }
+        console.log(elementAtNewPos?.type)
+        
+        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
+            player.visibility = false;
+            console.log(`El jugador ${player.name} ha entrado en un arbusto.`);
+        } else {
+            player.visibility = true;
+        }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
             allowed = false;

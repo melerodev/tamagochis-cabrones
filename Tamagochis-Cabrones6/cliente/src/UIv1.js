@@ -42,6 +42,9 @@ UIv1.drawBoard = (board) => {
                 iElement.style.color = "green";
             } else if (element.type == 1) {
                 iElement.className = "fa-solid fa-person";
+                if (element.visibility == false) {
+                    iElement.style.visibility = "hidden";
+                }
                 iElement.setAttribute("socket-id", element.id);
             } else {
                 iElement.className = "";
@@ -91,6 +94,11 @@ UIv1.movePlayer = (data) => {
     iElement.className = "fa-solid fa-person black";
     iElement.setAttribute("socket-id", data.id);
     document.querySelector(`[socket-id="${data.id}"]`).remove();
+
+    if (data.visibility == false) {
+        iElement.style.visibility = "hidden";
+    }
+
     document.querySelector(`[data-x="${data.x}"][data-y="${data.y}"]`).appendChild(iElement);
 }
 
