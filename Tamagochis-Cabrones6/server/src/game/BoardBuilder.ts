@@ -8,26 +8,28 @@ export enum Elements {
     EMPTY = 0
 }
 
+const map : Array<number[]> = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,5,0,0,0],
+    [0,5,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,5,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,5,0],
+    [0,0,5,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,5,0,0],
+    [0,0,0,0,0,0,0,0,0,0]
+]
+
 export class BoardBuilder {
     private board: Board;
     
     constructor() {
         this.board = {
             size: 10,
-            elements: []
+            elements: [],
         }
-        const map : Array<number[]> = [
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,5,0,0,0],
-            [0,5,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,5,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,5,0],
-            [0,0,5,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,5,0,0],
-            [0,0,0,0,0,0,0,0,0,0]
-        ]
+
         for(let i = 0; i < this.board.size; i++)
             for(let j = 0; j < this.board.size; j++)
                 if(map[i][j] != Elements.EMPTY) {
@@ -73,7 +75,10 @@ export class BoardBuilder {
         var result : MoveResult | null = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Idle };
         var allowed : boolean = true;
 
-        const newCoords = { x: Number(player.x), y: Number(player.y) };
+        let newCoords = { x: Number(player.x), y: Number(player.y) };
+
+        let lastPlayerCoords = { x: Number(player.x), y: Number(player.y) };
+
         switch (key) {
             case Keys.ArrowUp:
                 newCoords.x--;
@@ -100,14 +105,10 @@ export class BoardBuilder {
         }
     
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
-
-        console.log(elementAtNewPos?.type)
         
         if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
             player.visibility = false;
             console.log(`El jugador ${player.name} ha entrado en un arbusto.`);
-        } else {
-            player.visibility = true;
         }
 
         if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
@@ -121,10 +122,19 @@ export class BoardBuilder {
             player.x = newCoords.x;
             player.y = newCoords.y;
 
+            if (player.visibility == false && map[lastPlayerCoords.x][lastPlayerCoords.y] == Elements.BUSH) {
+                console.log("El jugador ha estado un arbusto");
+                player.visibility = true;
+                this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, state: null, visibility: null});
+            } else {
+                console.log("Algo no estás haciendo bien Alejandro");
+            }
+
             this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
             result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state };
+
+            console.log(`El jugador ${player.name} se ha movido a la posición (${player.x}, ${player.y})`);
         }
-        console.log(`He movido al jugador ${player.name} a la posición (${player.x}, ${player.y})`);
 
         return result;
     }

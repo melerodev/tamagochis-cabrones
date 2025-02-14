@@ -89,7 +89,7 @@ UIv1.sendNotification = (message, error) => {
 
 
 UIv1.movePlayer = (data) => {
-    console.log(data);
+    // console.log(data);
     let iElement = document.createElement("i");
     iElement.className = "fa-solid fa-person black";
     iElement.setAttribute("socket-id", data.id);

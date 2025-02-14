@@ -65,7 +65,6 @@ export class GameService {
     };
 
     async do_newBoard(payload) {
-        console.log(payload);
         this.#state = this.#states.PLAYING;
         this.#board.build(payload);
         this.#ui.drawBoard(this.#board.map);
