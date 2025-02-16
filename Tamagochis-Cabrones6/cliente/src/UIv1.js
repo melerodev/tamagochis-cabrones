@@ -108,15 +108,6 @@ UIv1.movePlayer = (data) => {
     UIv1.rotatePlayer({id: data.id, direction: data.direction});
 }
 
-// UIv1.rotatePlayer = (data) => {
-//     if (rotationDegrees == 360) {
-//         rotationDegrees = 0;
-//     } 
-//     rotationDegrees += 90;
-//     const player = document.querySelector(`[socket-id="${data.id}"]`);
-//     player.style.transform = `rotate(${rotationDegrees}deg)`;
-// }
-
 UIv1.rotatePlayer = (data) => {
     let rotation = 0;
     switch(data.direction) {

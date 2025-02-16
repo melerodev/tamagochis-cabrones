@@ -73,13 +73,18 @@ export class BoardBuilder {
 
     public movePlayer(player: Player, key: Keys) : MoveResult | null {
         var result : MoveResult | null = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Idle };
-        var allowed : boolean = true;
-
         let newCoords = { x: Number(player.x), y: Number(player.y) };
-
         let lastPlayerCoords = { x: Number(player.x), y: Number(player.y) };
 
-        switch (key) {
+        if ((key === Keys.ArrowUp && player.direction !== Directions.Up) || // si el jugador intenta moverse en una dirección no permitida
+        (key === Keys.ArrowDown && player.direction !== Directions.Down) ||
+        (key === Keys.ArrowLeft && player.direction !== Directions.Left) ||
+        (key === Keys.ArrowRight && player.direction !== Directions.Right)) 
+        {
+            return null;
+        }
+
+        switch (key) { // obtener las nuevas coordenadas del jugador
             case Keys.ArrowUp:
                 newCoords.x--;
                 break;
@@ -94,45 +99,40 @@ export class BoardBuilder {
                 break;
             default:
                 console.log("Dirección no válida");
-                allowed = false;
-                result = null;
-        }
-    
-        if (newCoords.x < 0 || newCoords.y < 0 || newCoords.x >= this.board.size || newCoords.y >= this.board.size) {
-            console.log(`El jugador ${player.name} quiere salir fuera de los límites del tablero.`);
-            allowed = false;
-            result = null;
-        }
-    
-        const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y);
-        
-        if (elementAtNewPos && elementAtNewPos.type === Elements.BUSH) {
-            player.visibility = false;
-            console.log(`El jugador ${player.name} ha entrado en un arbusto.`);
+                return null;
         }
 
-        if (elementAtNewPos && elementAtNewPos.type === Elements.PLAYER) {
-            allowed = false;
-            result = null;
+        if (newCoords.x < 0 || newCoords.y < 0 || newCoords.x >= this.board.size || newCoords.y >= this.board.size) { // si el jugador se sale del tablero
+            return null;
         }
     
+        const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y); // obtener el elemento en la nueva posición
+        
+        if (elementAtNewPos) { // si hay un elemento en la nueva posición
+            if (elementAtNewPos.type == Elements.BUSH) { // si el elemento es un arbusto
+                player.visibility = false;
+            } 
+            
+            if (elementAtNewPos.type == Elements.PLAYER) { // si el elemento es un jugador
+                return null;
+            }
+        }
+
         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y)); // eliminar la posición anterior del jugador
 
-        if (allowed) {
-            player.x = newCoords.x;
-            player.y = newCoords.y;
+        // actualizar las coordenadas del jugador
+        player.x = newCoords.x;
+        player.y = newCoords.y;
 
-            if (player.visibility == false && map[lastPlayerCoords.x][lastPlayerCoords.y] == Elements.BUSH) {
-                console.log(`El jugador ${player.name} ha salido de un arbusto.`);
-                player.visibility = true;
-                this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, state: null, visibility: null});
-            }
-
-            this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) });
-            result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state };
-
-            console.log(`El jugador ${player.name} se ha movido a la posición (${player.x}, ${player.y})`);
+        if (player.visibility == false && map[lastPlayerCoords.x][lastPlayerCoords.y] == Elements.BUSH) { // si el jugador estaba en un arbusto
+            player.visibility = true; // hacerlo visible
+            this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, state: null, visibility: null}); // añadir el arbusto a la posición anterior del jugador
         }
+
+        this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) }); // añadir la nueva posición del jugador
+        result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state }; // asignar el resultado
+
+        console.log(`El jugador ${player.name} se ha movido a la posición (${player.x}, ${player.y})`);
 
         return result;
     }
