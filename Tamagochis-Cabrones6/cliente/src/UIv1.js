@@ -130,5 +130,5 @@ UIv1.rotatePlayer = (data) => {
 
 
 UIv1.firePlayer = (data) => {
-    console.log(data);
+    document.querySelector(`[socket-id="${data.id}"]`).remove();
 }

@@ -1,6 +1,6 @@
 import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Board } from "./entities/Board";
-import { Keys, MoveResult, RotateResult } from "./entities/Game";
+import { Keys, MoveResult, RotateResult, ShotResult } from "./entities/Game";
 
 export enum Elements {
     BUSH = 5,
@@ -158,9 +158,43 @@ export class BoardBuilder {
         return { id: player.id.id, direction: player.direction };
     }
 
-    public firePlayer(player: Player) : Boolean {
-        var result = true;
+    public firePlayer(player: Player) : ShotResult | null {
+        var result : ShotResult | null = { id: "0" };
+        let newCoords = { x: Number(player.x), y: Number(player.y) };
 
+        switch (player.direction) { // obtener las nuevas coordenadas del jugador
+            case Directions.Up:
+                newCoords.x--;
+                break;
+            case Directions.Down:
+                newCoords.x++;
+                break;
+            case Directions.Left:
+                newCoords.y--;
+                break;
+            case Directions.Right:
+                newCoords.y++;
+                break;
+            default:
+                console.log("No se ha podido disparar");
+                return null;
+        }
+
+        const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y); // obtener el elemento en la nueva posición
+
+        if (elementAtNewPos) {
+            if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true /*&& player.direction != elementAtNewPos.direction*/) { // si hay un jugador en la nueva posición y es visible
+                elementAtNewPos.state = PlayerStates.Dead;
+                this.board.elements = this.board.elements.filter(element => !(element.x === newCoords.x && element.y === newCoords.y));
+                result = { id: elementAtNewPos.id ?? "0" };
+            } else {
+                console.log("No se ha podido disparar");
+                return null;
+            }
+        } else {
+            return null;
+        }
+        
         return result;
     }
 }

@@ -39,6 +39,11 @@ export interface RotateResult {
     direction: Directions;
 }
 
+
+export interface ShotResult {
+    id : String;
+}
+
 export interface Game {
     id : String,
     state: GameStates,

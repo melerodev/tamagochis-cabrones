@@ -1,5 +1,6 @@
 import { Board } from "../entities/Board.js";
 import { Queue } from "../Queue.js";
+
 export class GameService {
     #states = {
         WAITING : 0,
@@ -85,6 +86,6 @@ export class GameService {
     }
 
     async do_shot(payload) {
-        console.log("Disparando");
+        this.#ui.firePlayer(payload);
     }
 }
