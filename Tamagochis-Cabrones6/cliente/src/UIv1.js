@@ -76,9 +76,9 @@ UIv1.sendNotification = (params) => {
         dismissible: params.dismissible || true,
     });
     
-    var audio = new Audio('/cliente/assets/sounds/notification.mp3');
-    audio.volume = 0.2;
-    audio.play();
+    // var audio = new Audio('/cliente/assets/sounds/notification.mp3');
+    // audio.volume = 0.2;
+    // audio.play();
 
     if (params.error) {
         notyf.error(params.message);
@@ -94,7 +94,6 @@ UIv1.sendNotification = (params) => {
 
 
 UIv1.movePlayer = (data) => {
-    // console.log(data);
     let iElement = document.createElement("i");
     iElement.className = "fa-solid fa-person black";
     iElement.setAttribute("socket-id", data.id);
@@ -105,16 +104,39 @@ UIv1.movePlayer = (data) => {
     }
 
     document.querySelector(`[data-x="${data.x}"][data-y="${data.y}"]`).appendChild(iElement);
+
+    UIv1.rotatePlayer({id: data.id, direction: data.direction});
 }
 
+// UIv1.rotatePlayer = (data) => {
+//     if (rotationDegrees == 360) {
+//         rotationDegrees = 0;
+//     } 
+//     rotationDegrees += 90;
+//     const player = document.querySelector(`[socket-id="${data.id}"]`);
+//     player.style.transform = `rotate(${rotationDegrees}deg)`;
+// }
+
 UIv1.rotatePlayer = (data) => {
-    if (rotationDegrees == 360) {
-        rotationDegrees = 0;
-    } 
-    rotationDegrees += 90;
-    const player = document.querySelector(`[socket-id="${data.id}"]`);
-    player.style.transform = `rotate(${rotationDegrees}deg)`;
+    let rotation = 0;
+    switch(data.direction) {
+        case "UP":
+            rotation = 0;
+            break;
+        case "RIGHT":
+            rotation = 90;
+            break;
+        case "DOWN":
+            rotation = 180;
+            break;
+        case "LEFT":
+            rotation = 270;
+            break;
+    }
+
+    document.querySelector(`[socket-id="${data.id}"]`).style.transform = `rotate(${rotation}deg)`;
 }
+
 
 UIv1.firePlayer = (data) => {
     console.log(data);
