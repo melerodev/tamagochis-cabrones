@@ -33,7 +33,7 @@ export class BoardBuilder {
         for(let i = 0; i < this.board.size; i++)
             for(let j = 0; j < this.board.size; j++)
                 if(map[i][j] != Elements.EMPTY) {
-                    this.board.elements.push({id: null, x : i, y : j, type : Elements.BUSH, state: null, visibility: null});
+                    this.board.elements.push({id: null, x : i, y : j, type : Elements.BUSH, direction: null, state: null, visibility: null});
                 }
     }
 
@@ -58,7 +58,7 @@ export class BoardBuilder {
         player.y = corners[coords].y;
 
 
-        this.board.elements.push({id: player.id.id, x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility)});
+        this.board.elements.push({id: player.id.id, x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, direction: player.direction, state: player.state, visibility: Boolean(player.visibility)});
 
         console.log(`He añadido un jugador ${player.name} en la posición (${player.x}, ${player.y})`);
     }
@@ -126,10 +126,10 @@ export class BoardBuilder {
 
         if (player.visibility == false && map[lastPlayerCoords.x][lastPlayerCoords.y] == Elements.BUSH) { // si el jugador estaba en un arbusto
             player.visibility = true; // hacerlo visible
-            this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, state: null, visibility: null}); // añadir el arbusto a la posición anterior del jugador
+            this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, direction: player.direction, state: null, visibility: null}); // añadir el arbusto a la posición anterior del jugador
         }
 
-        this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, state: player.state, visibility: Boolean(player.visibility) }); // añadir la nueva posición del jugador
+        this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, direction: player.direction, state: player.state, visibility: Boolean(player.visibility) }); // añadir la nueva posición del jugador
         result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state }; // asignar el resultado
 
         console.log(`El jugador ${player.name} se ha movido a la posición (${player.x}, ${player.y})`);
@@ -183,12 +183,11 @@ export class BoardBuilder {
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y); // obtener el elemento en la nueva posición
 
         if (elementAtNewPos) {
-            if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true /*&& player.direction != elementAtNewPos.direction*/) { // si hay un jugador en la nueva posición y es visible
+            if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true && player.direction != elementAtNewPos.direction) { // si hay un jugador en la nueva posición, es visible y no está mirando hacia el mismo lado
                 elementAtNewPos.state = PlayerStates.Dead;
                 this.board.elements = this.board.elements.filter(element => !(element.x === newCoords.x && element.y === newCoords.y));
                 result = { id: elementAtNewPos.id ?? "0" };
             } else {
-                console.log("No se ha podido disparar");
                 return null;
             }
         } else {

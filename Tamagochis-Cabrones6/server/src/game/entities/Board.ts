@@ -1,4 +1,4 @@
-import { Player, PlayerStates } from "../../player/entities/Player";
+import { Directions, Player, PlayerStates } from "../../player/entities/Player";
 import { Elements } from "../BoardBuilder";
 
 export interface Element {
@@ -6,6 +6,7 @@ export interface Element {
     x : number;
     y : number; 
     type: Elements;
+    direction : Directions | null;
     state: PlayerStates | null;
     visibility: boolean | null;
 }
