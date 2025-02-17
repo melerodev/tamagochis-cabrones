@@ -155,6 +155,12 @@ export class BoardBuilder {
                 console.log("Dirección no válida");
         }
 
+        // subir la dirección del jugador en el tablero
+        const foundElement = this.board.elements.find(element => element.id === player.id.id);
+        if (foundElement && player.direction) {
+            foundElement.direction = player.direction;
+        }
+
         return { id: player.id.id, direction: player.direction };
     }
 
@@ -176,7 +182,7 @@ export class BoardBuilder {
                 newCoords.y++;
                 break;
             default:
-                console.log("No se ha podido disparar");
+                console.log("No ha sido posible disparar");
                 return null;
         }
 
@@ -194,6 +200,6 @@ export class BoardBuilder {
             return null;
         }
         
-        return result;
+        return null;
     }
 }
