@@ -1,3 +1,4 @@
+import { constrainedMemory } from "process";
 import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Board } from "./entities/Board";
 import { Keys, MoveResult, RotateResult, ShotResult } from "./entities/Game";
@@ -189,6 +190,8 @@ export class BoardBuilder {
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y); // obtener el elemento en la nueva posición
 
         if (elementAtNewPos) {
+            console.log("Element at new post: " + elementAtNewPos.direction);
+            console.log("Player direction: " + player.direction);
             if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true && player.direction != elementAtNewPos.direction) { // si hay un jugador en la nueva posición, es visible y no está mirando hacia el mismo lado
                 elementAtNewPos.state = PlayerStates.Dead;
                 this.board.elements = this.board.elements.filter(element => !(element.x === newCoords.x && element.y === newCoords.y));
@@ -200,6 +203,6 @@ export class BoardBuilder {
             return null;
         }
         
-        return null;
+        return result;
     }
 }

@@ -1,8 +1,7 @@
 import { UI_BUILDER } from "./Ui.js";
+import { soundsList, playSound } from "./SoundsPlayer.js";
 
 export const UIv1 = UI_BUILDER.init();
-
-let rotationDegrees = 0;
 
 UIv1.initUI = () => {
     const base = document.getElementById(UIv1.uiElements.board);
@@ -51,13 +50,6 @@ UIv1.drawBoard = (board) => {
             }
 
             tile.appendChild(iElement);
-
-            // anime({
-            //     targets: tile,
-            //     opacity: [0, 1],
-            //     duration: (Math.random() * 8000) + 1000,
-            //     easing: 'easeInOutQuad'
-            // });
         }));
     }
 }
@@ -75,10 +67,8 @@ UIv1.sendNotification = (params) => {
         position: {x: params.position.x, y: params.position.y} || { x: "right", y: "top" },
         dismissible: params.dismissible || true,
     });
-    
-    // var audio = new Audio('/cliente/assets/sounds/notification.mp3');
-    // audio.volume = 0.2;
-    // audio.play();
+
+    playSound(soundsList.NEW_PLAYER, 1);
 
     if (params.error) {
         notyf.error(params.message);
@@ -99,16 +89,18 @@ UIv1.movePlayer = (data) => {
     iElement.setAttribute("socket-id", data.id);
     document.querySelector(`[socket-id="${data.id}"]`).remove();
 
+    playSound(soundsList.MOVEMENT, 1);
+
     if (data.visibility == false) {
         iElement.style.visibility = "hidden";
     }
 
     document.querySelector(`[data-x="${data.x}"][data-y="${data.y}"]`).appendChild(iElement);
 
-    UIv1.rotatePlayer({id: data.id, direction: data.direction});
+    UIv1.rotatePlayer({id: data.id, direction: data.direction}, true);
 }
 
-UIv1.rotatePlayer = (data) => {
+UIv1.rotatePlayer = (data, isInternalCall = false) => {
     let rotation = 0;
     switch(data.direction) {
         case "UP":
@@ -125,10 +117,17 @@ UIv1.rotatePlayer = (data) => {
             break;
     }
 
+    // Si NO es una llamada interna, reproducir el sonido
+    if (!isInternalCall) {
+        console.log("Llamada interna");
+        playSound(soundsList.ROTATE, 1);
+    }
+
     document.querySelector(`[socket-id="${data.id}"]`).style.transform = `rotate(${rotation}deg)`;
 }
 
 
 UIv1.firePlayer = (data) => {
+    playSound(soundsList.SHOT, 1);
     document.querySelector(`[socket-id="${data.id}"]`).remove();
 }
