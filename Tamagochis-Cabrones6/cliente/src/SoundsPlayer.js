@@ -12,9 +12,9 @@ export const soundsList = {
 
 export function playSound(soundPath, volume) {
     try {
-        const audio = new Audio(soundPath.toString());
+        const audio = new Audio(soundPath);
         audio.volume = volume || 0.2;
-        audio.play().catch(err => console.error("Error al reproducir el sonido:", err));
+        audio.play().catch(error => console.error("Error al reproducir el sonido:", error));
     } catch (e) {
         console.error("Error inesperado:", e);
     }
