@@ -7,12 +7,14 @@ export const soundsList = {
     "ROTATE": MAIN_PATH + "rotate.mp3",
     "SHOT": MAIN_PATH + "shot.mp3",
     "BACKGROUND_MUSIC": MAIN_PATH + "background_music.mp3",
+    "GAME_START": MAIN_PATH + "gamestart.mp3",
     "GAME_OVER": MAIN_PATH + "gameover.mp3",
 };
 
-export function playSound(soundPath, volume) {
+export function playSound(soundPath, volume, loop) {
     try {
         const audio = new Audio(soundPath);
+        audio.loop = loop || false;
         audio.volume = volume || 0.2;
         audio.play().catch(error => console.error("Error al reproducir el sonido:", error));
     } catch (e) {

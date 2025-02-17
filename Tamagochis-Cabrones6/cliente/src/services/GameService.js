@@ -61,7 +61,11 @@ export class GameService {
     };
 
     async do_newPlayer (payload) {
-        this.#players.push(payload);
+        const maxPlayers = 2;
+        this.#players.push(payload); 
+        if (this.#players.length != maxPlayers) {
+            this.#ui.gameWaiting({maxPlayers: maxPlayers, players: this.#players});
+        }
         this.#ui.sendNotification({message: "El jugador " + payload.playerName + " se ha unido a la partida 🎮", duration: 3000, position: {x: "right", y: "top"}, dismissible: true, error: false});
     };
 

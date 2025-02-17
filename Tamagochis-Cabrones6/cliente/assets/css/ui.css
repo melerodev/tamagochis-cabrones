@@ -1,3 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
 .board {
     display: grid;
     gap: 5px; 
@@ -11,5 +20,13 @@
 }
 
 i {
+    font-size: 3em;
+}
+
+.waiting {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
     font-size: 3em;
 }

@@ -4,6 +4,7 @@ const UI = {
     sendNotification: () => { throw new TypeError('Debes cambiar este método para usarlo!') },
     movePlayer: () => { throw new TypeError('Debes cambiar este método para usarlo!') },
     rotatePlayer: () => {throw new TypeError("Debes cambiar este método para usarlo!") },
+    gameWaiting: () => { throw new TypeError('Debes cambiar este método para usarlo!') },
 
     firePlayer: () => { throw new TypeError('Debes cambiar este método para usarlo!') },
     initUI: ()  => { throw new TypeError('Debes cambiar este método para usarlo!') },

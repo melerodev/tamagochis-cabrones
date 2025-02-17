@@ -51,6 +51,14 @@ UIv1.drawBoard = (board) => {
 
             tile.appendChild(iElement);
         }));
+
+        playSound(soundsList.GAME_START, 1);
+        playSound(soundsList.BACKGROUND_MUSIC, 0.3, true);
+
+        if(document.querySelector(".waiting")) {
+            console.log(document.querySelectorAll(".waiting"));
+            document.querySelectorAll(".waiting").forEach(element => element.remove());
+        }
     }
 }
 
@@ -119,7 +127,6 @@ UIv1.rotatePlayer = (data, isInternalCall = false) => {
 
     // Si NO es una llamada interna, reproducir el sonido
     if (!isInternalCall) {
-        console.log("Llamada interna");
         playSound(soundsList.ROTATE, 1);
     }
 
@@ -130,4 +137,12 @@ UIv1.rotatePlayer = (data, isInternalCall = false) => {
 UIv1.firePlayer = (data) => {
     playSound(soundsList.SHOT, 1);
     document.querySelector(`[socket-id="${data.id}"]`).remove();
+}
+
+UIv1.gameWaiting = (data) => {
+    const h1 = document.createElement("h1");
+    h1.classList.add("waiting");
+    h1.textContent = "Esperando a que haya " + (data.maxPlayers - data.players.length) + " jugador/es más...";
+    document.body.appendChild(h1);
+    // crear esto con nods:
 }
