@@ -24,14 +24,23 @@ export class GameService {
     }
 
     public buildPlayer(socket: Socket): Player {
-        const names = ['Pepe', 'Juan', 'Pedro', 'Luis', 'Carlos', 'Javier', 'Miguel', 'Antonio', 'Manuel', 'Jose', 'David', 'Daniel', 'Jose Antonio', 'Francisco', 'Jesús', 'Angel', 'Alejandro', 'Jose Luis', 'Rafael', 'Miguel Angel', 'Jose Manuel', 'Juan Carlos', 'Fernando', 'Pablo', 'Sergio', 'Jorge', 'Alberto', 'Juan Antonio', 'Ramon', 'Enrique', 'Ricardo', 'Victor', 'Raul', 'Ruben', 'Emilio', 'Oscar', 'Adrian', 'Andres', 'Ismael', 'Diego', 'Alvaro', 'Joaquin', 'Santiago', 'Eduardo', 'Julio', 'Jaime', 'Ivan', 'Agustin', 'Marcos', 'Hugo', 'Guillermo', 'Salvador', 'Roberto', 'Arturo', 'Tomas', 'Alfonso', 'Cesar', 'Gonzalo', 'Lorenzo'];
+        const names = [
+            'Pepe', 'Juan', 'Pedro', 'Luis', 'Carlos', 'Javier', 'Miguel', 'Antonio', 
+            'Manuel', 'Jose', 'David', 'Daniel', 'Jose Antonio', 'Francisco', 'Jesús', 'Angel', 
+            'Alejandro', 'Jose Luis', 'Rafael', 'Miguel Angel', 'Jose Manuel', 'Juan Carlos', 
+            'Fernando', 'Pablo', 'Sergio', 'Jorge', 'Alberto', 'Juan Antonio', 'Ramon', 'Enrique', 
+            'Ricardo', 'Victor', 'Raul', 'Ruben', 'Emilio', 'Oscar', 'Adrian', 'Andres', 'Ismael', 
+            'Diego', 'Alvaro', 'Joaquin', 'Santiago', 'Eduardo', 'Julio', 'Jaime', 'Ivan', 'Agustin', 
+            'Marcos', 'Hugo', 'Guillermo', 'Salvador', 'Roberto', 'Arturo', 'Tomas', 'Alfonso', 
+            'Cesar', 'Gonzalo', 'Lorenzo'
+        ];
 
         return {
             id: socket,
             name: names[Math.floor(Math.random() * names.length)],
             x: 0,
             y: 0,
-            state: PlayerStates.Idle,
+            state: PlayerStates.Connected,
             direction: Directions.Up,
             visibility: true
         }
