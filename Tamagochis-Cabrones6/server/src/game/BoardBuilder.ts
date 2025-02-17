@@ -22,6 +22,8 @@ const map : Array<number[]> = [
     [0,0,0,0,0,0,0,0,0,0]
 ]
 
+let queue : Array<Player> = [];
+
 export class BoardBuilder {
     private board: Board;
     
@@ -58,8 +60,19 @@ export class BoardBuilder {
         player.x = corners[coords].x;
         player.y = corners[coords].y;
 
+        queue.push(player);
 
-        this.board.elements.push({id: player.id.id, x : corners[coords].x, y : corners[coords].y, type : Elements.PLAYER, direction: player.direction, state: player.state, visibility: Boolean(player.visibility)});
+        this.board.elements.push(
+            {
+                id: player.id.id, 
+                x : corners[coords].x, 
+                y : corners[coords].y, 
+                type : Elements.PLAYER, 
+                direction: player.direction, 
+                state: player.state, 
+                visibility: Boolean(player.visibility)
+            }
+        );
 
         console.log(`He añadido un jugador ${player.name} en la posición (${player.x}, ${player.y})`);
     }
@@ -68,20 +81,31 @@ export class BoardBuilder {
         if (!player) return;
         
         this.board.elements = this.board.elements.filter(element => !(element.x === player.x && element.y === player.y));
+        queue = queue.filter(queuePlayer => queuePlayer.id.id !== player.id.id);
         
         console.log(`He eliminado un jugador ${player.id.id} en la posición (${player.x}, ${player.y})`);
     }
 
     public movePlayer(player: Player, key: Keys) : MoveResult | null {
-        var result : MoveResult | null = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Idle };
+        var result : MoveResult | null = {id: "0", x: 0, y: 0, visibility: true, direction: Directions.Idle, state: PlayerStates.Connected };
         let newCoords = { x: Number(player.x), y: Number(player.y) };
         let lastPlayerCoords = { x: Number(player.x), y: Number(player.y) };
+
+        if (player.state == PlayerStates.Dead) {
+            return null;
+        }
+
+        if (queue.length > 0 && player.id == queue[0].id) {
+            queue = queue.filter(queuePlayer => queuePlayer.id.id !== player.id.id);
+            queue.push(player);
+        } else {
+            return null; // no es su turno
+        }
 
         if ((key === Keys.ArrowUp && player.direction !== Directions.Up) || // si el jugador intenta moverse en una dirección no permitida
         (key === Keys.ArrowDown && player.direction !== Directions.Down) ||
         (key === Keys.ArrowLeft && player.direction !== Directions.Left) ||
-        (key === Keys.ArrowRight && player.direction !== Directions.Right)) 
-        {
+        (key === Keys.ArrowRight && player.direction !== Directions.Right)) {
             return null;
         }
 
@@ -127,11 +151,41 @@ export class BoardBuilder {
 
         if (player.visibility == false && map[lastPlayerCoords.x][lastPlayerCoords.y] == Elements.BUSH) { // si el jugador estaba en un arbusto
             player.visibility = true; // hacerlo visible
-            this.board.elements.push({id: null, x : lastPlayerCoords.x, y : lastPlayerCoords.y, type : Elements.BUSH, direction: player.direction, state: null, visibility: null}); // añadir el arbusto a la posición anterior del jugador
+            this.board.elements.push(
+                {
+                    id: null, 
+                    x : lastPlayerCoords.x, 
+                    y : lastPlayerCoords.y, 
+                    type : Elements.BUSH, 
+                    direction: player.direction, 
+                    state: null, 
+                    visibility: null
+                }
+            ); // añadir el arbusto a la posición anterior del jugador
         }
 
-        this.board.elements.push({id: player.id.id, x: newCoords.x, y: newCoords.y, type: Elements.PLAYER, direction: player.direction, state: player.state, visibility: Boolean(player.visibility) }); // añadir la nueva posición del jugador
-        result = {id: player.id.id, x: newCoords.x, y: newCoords.y, visibility: Boolean(player.visibility), direction: player.direction, state: player.state }; // asignar el resultado
+        queue.push(player); // añadir el jugador a la cola
+
+        this.board.elements.push(
+            {
+                id: player.id.id, 
+                x: newCoords.x, 
+                y: newCoords.y, 
+                type: Elements.PLAYER, 
+                direction: player.direction, 
+                state: player.state, 
+                visibility: Boolean(player.visibility) 
+            }
+        ); // añadir la nueva posición del jugador
+
+        result = {
+            id: player.id.id, 
+            x: newCoords.x, 
+            y: newCoords.y, 
+            visibility: Boolean(player.visibility), 
+            direction: player.direction, 
+            state: player.state 
+        }; // asignar el resultado
 
         console.log(`El jugador ${player.name} se ha movido a la posición (${player.x}, ${player.y})`);
 
@@ -189,9 +243,7 @@ export class BoardBuilder {
 
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y); // obtener el elemento en la nueva posición
 
-        if (elementAtNewPos) {
-            console.log("Element at new post: " + elementAtNewPos.direction);
-            console.log("Player direction: " + player.direction);
+        if (elementAtNewPos) { 
             if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true && player.direction != elementAtNewPos.direction) { // si hay un jugador en la nueva posición, es visible y no está mirando hacia el mismo lado
                 elementAtNewPos.state = PlayerStates.Dead;
                 this.board.elements = this.board.elements.filter(element => !(element.x === newCoords.x && element.y === newCoords.y));
