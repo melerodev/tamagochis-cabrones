@@ -1,11 +1,13 @@
+const MAIN_PATH = "/cliente/assets/sounds/";
+
 export const soundsList = {
-    "NEW_PLAYER": "/cliente/assets/sounds/newplayer.mp3",
-    "DISCONNECTED": "/cliente/assets/sounds/disconnected.mp3",
-    "MOVEMENT": "/cliente/assets/sounds/movement.mp3",
-    "ROTATE": "/cliente/assets/sounds/rotate.mp3",
-    "SHOT": "/cliente/assets/sounds/shot.mp3",
-    "BACKGROUND_MUSIC": "/cliente/assets/sounds/background_music.mp3",
-    "GAME_OVER": "/cliente/assets/sounds/gameover.mp3",
+    "NEW_PLAYER": MAIN_PATH + "newplayer.mp3",
+    "DISCONNECTED": MAIN_PATH + "disconnected.mp3",
+    "MOVEMENT": MAIN_PATH + "movement.mp3",
+    "ROTATE": MAIN_PATH + "rotate.mp3",
+    "SHOT": MAIN_PATH + "shot.mp3",
+    "BACKGROUND_MUSIC": MAIN_PATH + "background_music.mp3",
+    "GAME_OVER": MAIN_PATH + "gameover.mp3",
 };
 
 export function playSound(soundPath, volume) {
