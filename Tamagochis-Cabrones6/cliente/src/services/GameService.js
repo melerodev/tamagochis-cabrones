@@ -90,6 +90,10 @@ export class GameService {
     }
 
     async do_shot(payload) {
+        if (payload.gameOver) {
+            this.#state = this.#states.ENDED;
+            this.#ui.deleteBoard(payload.playerName);
+        }
         this.#ui.firePlayer(payload);
     }
 }

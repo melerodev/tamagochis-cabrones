@@ -56,17 +56,24 @@ UIv1.drawBoard = (board) => {
         playSound(soundsList.BACKGROUND_MUSIC, 0.3, true);
 
         if(document.querySelector(".waiting")) {
-            console.log(document.querySelectorAll(".waiting"));
             document.querySelectorAll(".waiting").forEach(element => element.remove());
         }
     }
 }
 
-UIv1.deleteBoard = () => {
+UIv1.deleteBoard = (winner) => {
     const base = document.getElementById(UIv1.uiElements.board);
-    console.log(base);
-
     base.innerHTML = '';
+    // playSound(soundsList.BACKGROUND_MUSIC, 0, false); ESTO NO FUNCIONA PARA PARAR LA MÚSICA DE FONDO
+    playSound(soundsList.GAME_OVER, 1);
+    playSound(soundsList.VICTORY_BACKGROUND_MUSIC, 0.3, true);
+    const h1 = document.createElement("h1");
+    const h2 = document.createElement("h2");
+    h1.classList.add("waiting");
+    h2.classList.add("waiting");
+    h1.textContent = "El juego ha terminado. ¡Gracias por jugar! 🎮";
+    h2.textContent = `Ha ganado el jugador: ${winner} 🏆 !`;
+    document.body.appendChild(h1);
 }
 
 UIv1.sendNotification = (params) => {
@@ -136,7 +143,9 @@ UIv1.rotatePlayer = (data, isInternalCall = false) => {
 
 UIv1.firePlayer = (data) => {
     playSound(soundsList.SHOT, 1);
-    document.querySelector(`[socket-id="${data.id}"]`).remove();
+    if (document.querySelector(`[socket-id="${data.id}"]`)) {
+        document.querySelector(`[socket-id="${data.id}"]`).remove();
+    }
 }
 
 UIv1.gameWaiting = (data) => {
@@ -144,5 +153,4 @@ UIv1.gameWaiting = (data) => {
     h1.classList.add("waiting");
     h1.textContent = "Esperando a que haya " + (data.maxPlayers - data.players.length) + " jugador/es más...";
     document.body.appendChild(h1);
-    // crear esto con nods:
 }

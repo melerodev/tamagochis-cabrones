@@ -9,6 +9,7 @@ export const soundsList = {
     "BACKGROUND_MUSIC": MAIN_PATH + "background_music.mp3",
     "GAME_START": MAIN_PATH + "gamestart.mp3",
     "GAME_OVER": MAIN_PATH + "gameover.mp3",
+    "VICTORY_BACKGROUND_MUSIC": MAIN_PATH + "victory_background_music.mp3",
 };
 
 export function playSound(soundPath, volume, loop) {

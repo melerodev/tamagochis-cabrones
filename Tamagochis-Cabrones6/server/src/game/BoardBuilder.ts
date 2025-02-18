@@ -1,4 +1,3 @@
-import { constrainedMemory } from "process";
 import { Directions, Player, PlayerStates } from "../player/entities/Player";
 import { Board } from "./entities/Board";
 import { Keys, MoveResult, RotateResult, ShotResult } from "./entities/Game";
@@ -164,7 +163,7 @@ export class BoardBuilder {
             ); // añadir el arbusto a la posición anterior del jugador
         }
 
-        queue.push(player); // añadir el jugador a la cola
+        // queue.push(player); // añadir el jugador a la cola
 
         this.board.elements.push(
             {
@@ -220,7 +219,14 @@ export class BoardBuilder {
     }
 
     public firePlayer(player: Player) : ShotResult | null {
-        var result : ShotResult | null = { id: "0" };
+        if (queue.length > 0 && player.id == queue[0].id) {
+            queue = queue.filter(queuePlayer => queuePlayer.id.id !== player.id.id);
+            queue.push(player);
+        } else {
+            return null; // no es su turno
+        }
+
+        var result : ShotResult | null = { id: "0", gameOver: null, playerName: null };
         let newCoords = { x: Number(player.x), y: Number(player.y) };
 
         switch (player.direction) { // obtener las nuevas coordenadas del jugador
@@ -244,10 +250,26 @@ export class BoardBuilder {
         const elementAtNewPos = this.board.elements.find(element => element.x === newCoords.x && element.y === newCoords.y); // obtener el elemento en la nueva posición
 
         if (elementAtNewPos) { 
-            if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true && player.direction != elementAtNewPos.direction) { // si hay un jugador en la nueva posición, es visible y no está mirando hacia el mismo lado
+            if (elementAtNewPos?.type == Elements.PLAYER && elementAtNewPos.visibility == true) { // si hay un jugador en la nueva posición, es visible y no está mirando hacia el mismo lado
+                if (elementAtNewPos.direction == Directions.Up && player.direction == Directions.Down ||
+                    elementAtNewPos.direction == Directions.Down && player.direction == Directions.Up ||
+                    elementAtNewPos.direction == Directions.Left && player.direction == Directions.Right ||
+                    elementAtNewPos.direction == Directions.Right && player.direction == Directions.Left) {
+                    console.log("No ha sido posible disparar");
+                    return null;
+                } else {
+                    console.log("Se ha podido disparar")
+                }
                 elementAtNewPos.state = PlayerStates.Dead;
                 this.board.elements = this.board.elements.filter(element => !(element.x === newCoords.x && element.y === newCoords.y));
-                result = { id: elementAtNewPos.id ?? "0" };
+                queue = queue.filter(queuePlayer => queuePlayer.id.id !== elementAtNewPos.id);
+                console.log(queue.length);
+
+                if (queue.length === 1) {
+                    result = { id: elementAtNewPos.id ?? "0", gameOver: true, playerName: player.name };
+                } else {
+                    result = { id: elementAtNewPos.id ?? "0", gameOver: false, playerName: null };
+                }
             } else {
                 return null;
             }

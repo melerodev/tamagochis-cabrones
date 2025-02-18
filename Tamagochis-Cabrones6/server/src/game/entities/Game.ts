@@ -1,4 +1,4 @@
-import { Directions, PlayerStates } from "../../player/entities/Player";
+import { Directions, Player, PlayerStates } from "../../player/entities/Player";
 import { Room } from "../../room/entities/Room";
 import { BoardBuilder } from "../BoardBuilder";
 import { Board } from "./Board";
@@ -42,6 +42,8 @@ export interface RotateResult {
 
 export interface ShotResult {
     id : String;
+    gameOver: boolean | null;
+    playerName: String | null;
 }
 
 export interface Game {
