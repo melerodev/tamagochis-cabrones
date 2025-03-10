@@ -19,7 +19,7 @@ export const EventsHandler = {
                 let sum = 0;
                 tds.forEach(td => {
                     const value = parseInt(td.querySelector('input').value);
-                    if (!isNaN(value)) {
+                    if (!isNaN(value)) { // isNan lo que hace es comprobar si el valor es un número
                         sum += value;
                     }
                 });
