@@ -115,7 +115,7 @@ UIv1.movePlayer = (data) => {
     UIv1.rotatePlayer({id: data.id, direction: data.direction}, true);
 }
 
-UIv1.rotatePlayer = (data, isInternalCall = false) => {
+UIv1.rotatePlayer = (data) => {
     let rotation = 0;
     switch(data.direction) {
         case "UP":
@@ -130,11 +130,6 @@ UIv1.rotatePlayer = (data, isInternalCall = false) => {
         case "LEFT":
             rotation = 270;
             break;
-    }
-
-    // Si NO es una llamada interna, reproducir el sonido
-    if (!isInternalCall) {
-        playSound(soundsList.ROTATE, 1);
     }
 
     document.querySelector(`[socket-id="${data.id}"]`).style.transform = `rotate(${rotation}deg)`;

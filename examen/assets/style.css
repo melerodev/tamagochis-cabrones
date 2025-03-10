@@ -1,0 +1,9 @@
+.table {
+    width: 90%;
+    max-width: 90%;
+    
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+}
